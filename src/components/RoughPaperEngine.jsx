@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Play, 
   Pause, 
@@ -17,101 +17,87 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
   const [currentStage, setCurrentStage] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
-  const [writePhase, setWritePhase] = useState(1); // 1: initial, 2: middle, 3: detailed, 4: complete
   const [isHandRaised, setIsHandRaised] = useState(false);
-  const [typedDialogue, setTypedDialogue] = useState('');
+  
+  // Writing animation progress (1: base, 2: core diagram, 3: details & annotations)
+  const [drawPhase, setDrawPhase] = useState(1);
+  
+  // Subtitle fade state for Zone 2
+  const [subtitleOpacity, setSubtitleOpacity] = useState(1);
+  const [activeDialogue, setActiveDialogue] = useState('');
 
   const stages = [
     {
       id: 'crash',
       title: '01. The Crash',
-      subtitle: 'Why 100K Users Kill Direct SQL Queries',
       dialogue: 'Rey tammudu, IPL match appudu 100,000 mandhi oke sari Swiggy open chesthe... Junior developers ventane DB meedhaki SELECT query kotti disk ni champestharu. Hard disk 100,000 times/sec spin avvadhu ra — server dead!',
-      audioTime: '0:32',
+      time: '0:32',
       penColor: '#f43f5e'
     },
     {
       id: 'analogy',
       title: '02. Biryani Counter',
-      subtitle: 'Kitchen Chef vs Front Hot-Box Counter',
       dialogue: 'Bawarchi hotel ki velli biryani adagagane, prathi customer kosam kitchen loki velli fresh ga rice vandaru ra! Front counter hot-box lo already 50 packets ready ga untayi — 2 seconds lo ichestharu. Idhe Caching!',
-      audioTime: '1:18',
+      time: '1:18',
       penColor: '#facc15'
     },
     {
       id: 'arch',
       title: '03. RAM vs Disk',
-      subtitle: 'Redis In-Memory Architecture in 1ms',
       dialogue: 'Computer science lo RAM speed nanoseconds lo untundhi, Hard Disk milliseconds. Redis anedhi RAM lo unde giant Key-Value map. First user vachinappude DB nunchi thestham — migatha 99,999 mandhiki 1ms lo Redis ichesthundhi!',
-      audioTime: '2:15',
+      time: '2:15',
       penColor: '#38bdf8'
     },
     {
       id: 'trap',
-      title: '04. The Trap: Stale Data',
-      subtitle: 'Cache Invalidation & TTL (Time-To-Live)',
+      title: '04. Stale Cache Trap',
       dialogue: 'Ikkade interviewer tricky question aduguthadu: "Biryani price ₹250 nunchi ₹290 ki marina, Redis lo old price eh untundhi kada?" ani. Ventane cheppali: "Anna, 5-min TTL expire avvali, lekapothe DB update ayyaka Redis key ni delete chestham"!',
-      audioTime: '3:04',
+      time: '3:04',
       penColor: '#fb923c'
     },
     {
       id: 'reality',
       title: '05. Engineering Reality',
-      subtitle: 'Production Scalability vs Fresher Rejection Filter',
       dialogue: 'Rey, deenitho repu poddunne direct ga offer vachesthadhi ani nenu fake promises cheppanu. Kaani reality enti ante: 90% candidates scale cheyadam theliyaka L1 lone filter avutharu. Ee memory trade-offs ila explain chesthe, recruiter knows you understand real systems!',
-      audioTime: '3:50',
+      time: '3:50',
       penColor: '#4ade80'
     }
   ];
 
-  const activeStageData = stages[currentStage];
-  const typingTimerRef = useRef(null);
+  const currentStageData = stages[currentStage];
 
-  // Progressive handwriting reveal timer for each stage
+  // Stage change transition: Reset drawing and handle subtitle fade
   useEffect(() => {
-    const t0 = setTimeout(() => setWritePhase(1), 20);
-    const t1 = setTimeout(() => setWritePhase(2), 900);
-    const t2 = setTimeout(() => setWritePhase(3), 2100);
-    const t3 = setTimeout(() => setWritePhase(4), 3400);
+    // 1. Fade out old subtitle
+    const fadeTimer = setTimeout(() => {
+      setSubtitleOpacity(0);
+      setDrawPhase(1);
+    }, 15);
+
+    // 2. Change dialogue text and fade back in
+    const subTimer = setTimeout(() => {
+      setActiveDialogue(currentStageData.dialogue);
+      setSubtitleOpacity(1);
+    }, 280);
+
+    // 3. Progressive real drawing sequence (paths trace stroke-by-stroke)
+    const d1 = setTimeout(() => setDrawPhase(2), 1000);
+    const d2 = setTimeout(() => setDrawPhase(3), 2400);
 
     return () => {
-      clearTimeout(t0);
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      clearTimeout(fadeTimer);
+      clearTimeout(subTimer);
+      clearTimeout(d1);
+      clearTimeout(d2);
     };
-  }, [currentStage]);
-
-  // Live typewriter letter-by-letter handwriting effect for dialogue
-  useEffect(() => {
-    let charIndex = 0;
-    const fullText = activeStageData.dialogue;
-
-    if (typingTimerRef.current) clearInterval(typingTimerRef.current);
-
-    const startTimer = setTimeout(() => {
-      setTypedDialogue('');
-      typingTimerRef.current = setInterval(() => {
-        charIndex += 1;
-        setTypedDialogue(fullText.slice(0, charIndex));
-        if (charIndex >= fullText.length) {
-          clearInterval(typingTimerRef.current);
-        }
-      }, 22);
-    }, 20);
-
-    return () => {
-      clearTimeout(startTimer);
-      if (typingTimerRef.current) clearInterval(typingTimerRef.current);
-    };
-  }, [currentStage, activeStageData.dialogue]);
+  }, [currentStage, currentStageData.dialogue]);
 
   // Auto-play through stages
   useEffect(() => {
     if (!isPlaying) return;
     const interval = setInterval(() => {
       setCurrentStage((prev) => (prev + 1) % stages.length);
-    }, 8500);
+    }, 9000);
     return () => clearInterval(interval);
   }, [isPlaying, stages.length]);
 
@@ -121,10 +107,13 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
   };
 
   const handleReplay = () => {
-    setWritePhase(1);
-    setTimeout(() => setWritePhase(2), 800);
-    setTimeout(() => setWritePhase(3), 1900);
-    setTimeout(() => setWritePhase(4), 3100);
+    setDrawPhase(1);
+    const d1 = setTimeout(() => setDrawPhase(2), 900);
+    const d2 = setTimeout(() => setDrawPhase(3), 2200);
+    return () => {
+      clearTimeout(d1);
+      clearTimeout(d2);
+    };
   };
 
   return (
@@ -133,25 +122,25 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
         
         {/* Section Header */}
         <div className="max-w-3xl mb-12 space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950 font-sans">
             Real understanding happens on a live whiteboard,{' '}
             <span className="text-emerald-700">not pre-recorded lecture slides.</span>
           </h2>
-          <p className="text-base text-slate-600 font-normal leading-relaxed">
+          <p className="text-base text-slate-600 font-normal leading-relaxed font-sans">
             Just like an experienced senior pulling you into a 1-on-1 Google Meet call — sharing a live digital blackboard, sketching real-world system architecture by hand with colored markers, and talking through every edge case until the mental model clicks.
           </p>
         </div>
 
-        {/* Realistic Google Meet Call Container */}
-        <div className="bg-[#202124] rounded-3xl shadow-2xl border border-slate-800 overflow-hidden text-white">
+        {/* ZONE 3: GOOGLE MEET UI WRAPPER */}
+        <div className="bg-[#202124] rounded-3xl shadow-2xl border border-slate-800 overflow-hidden text-white font-sans">
           
-          {/* Google Meet Browser Tab / Header Bar */}
+          {/* Meet Browser Header */}
           <div className="px-4 py-3 bg-[#171717] border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-3">
-              {/* Red Recording Dot */}
+              {/* Red REC dot */}
               <div className="flex items-center gap-2 bg-[#2d1b1e] px-2.5 py-1 rounded-full border border-rose-900/60">
                 <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
-                <span className="text-rose-200 font-bold text-[11px] uppercase tracking-wider">
+                <span className="text-rose-200 font-bold text-[11px] uppercase tracking-wider font-sans">
                   REC
                 </span>
               </div>
@@ -159,14 +148,14 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
               <span className="text-slate-600">|</span>
 
               {/* Presenting Screen Pill */}
-              <div className="flex items-center gap-2 bg-blue-950/80 text-blue-300 border border-blue-800/80 px-3 py-1 rounded-full text-xs font-medium">
+              <div className="flex items-center gap-2 bg-blue-950/80 text-blue-300 border border-blue-800/80 px-3 py-1 rounded-full text-xs font-medium font-sans">
                 <span className="w-2 h-2 rounded-full bg-blue-400"></span>
                 <span>Sai Anna is presenting to everyone</span>
               </div>
             </div>
 
             {/* Meet Top Right Info */}
-            <div className="flex items-center gap-4 text-slate-300 text-xs">
+            <div className="flex items-center gap-4 text-slate-300 text-xs font-sans">
               <span className="hidden sm:inline-block font-semibold">meet.google.com/sai-mentorship-live</span>
               <div className="flex items-center gap-1.5 bg-slate-800 px-2.5 py-1 rounded-lg">
                 <Users className="w-3.5 h-3.5 text-slate-400" />
@@ -176,7 +165,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
           </div>
 
           {/* Whiteboard Stage Navigation Selector */}
-          <div className="bg-[#1f1f1f] px-4 py-2 border-b border-slate-800/80 flex items-center justify-between gap-2 overflow-x-auto">
+          <div className="bg-[#1f1f1f] px-4 py-2 border-b border-slate-800/80 flex items-center justify-between gap-2 overflow-x-auto font-sans">
             <div className="flex items-center gap-2">
               {stages.map((stage, idx) => (
                 <button
@@ -185,7 +174,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
                     setCurrentStage(idx);
                     setIsPlaying(false);
                   }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer font-sans ${
                     currentStage === idx
                       ? 'bg-blue-600 text-white shadow-xs'
                       : 'bg-slate-800/60 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
@@ -196,12 +185,12 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
               ))}
             </div>
 
-            {/* Play/Pause & Replay Controls */}
+            {/* Play/Pause & Re-write Controls */}
             <div className="flex items-center gap-2">
               <button
                 onClick={handleReplay}
-                className="p-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors cursor-pointer flex items-center gap-1"
-                title="Replay live marker writing animation"
+                className="p-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors cursor-pointer flex items-center gap-1 font-sans"
+                title="Re-draw live marker animation"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline text-[11px]">Re-write</span>
@@ -209,7 +198,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
 
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer font-sans"
               >
                 {isPlaying ? (
                   <>
@@ -226,16 +215,16 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
             </div>
           </div>
 
-          {/* THE PURE BLACK SCREEN-SHARED WHITEBOARD (100% CAVEAT HANDWRITING FONT) */}
-          <div className="relative bg-[#000000] w-full aspect-[16/9] min-h-[460px] sm:min-h-[540px] flex flex-col justify-between p-6 sm:p-10 select-none overflow-hidden">
+          {/* ZONE 1: THE WRITING SPACE (BLACKBOARD — 100% PLAYPEN SANS, HAND-DRAWN ONLY, ZERO STRAIGHT SHAPES) */}
+          <div className="relative bg-[#000000] w-full aspect-[16/9] min-h-[460px] sm:min-h-[520px] flex flex-col justify-between p-6 sm:p-10 select-none overflow-hidden font-board">
             
             {/* Live Writing Pen Tip Indicator */}
             <div className="absolute top-4 right-4 flex items-center gap-2 bg-slate-900/80 px-3 py-1 rounded-full border border-slate-800 pointer-events-none z-10">
               <span 
                 className="w-2.5 h-2.5 rounded-full animate-pen-pulse"
-                style={{ backgroundColor: activeStageData.penColor }}
+                style={{ backgroundColor: currentStageData.penColor }}
               ></span>
-              <span className="font-marker text-lg text-slate-300">
+              <span className="font-board text-base text-slate-300">
                 Sai Anna writing...
               </span>
             </div>
@@ -244,177 +233,194 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
             {currentStage === 0 && (
               <div className="w-full h-full flex flex-col justify-between">
                 
-                {/* Top Section */}
-                <div className="space-y-1">
-                  <p className="font-marker text-3xl sm:text-4xl text-white">
-                    IPL Final: 100,000 Users Order Biryani at 8:00 PM
+                {/* Stage Title */}
+                <div>
+                  <p className="font-board text-2xl sm:text-3xl text-white font-bold">
+                    IPL Final: 100,000 Users Order at 8:00 PM
                   </p>
-                  <p className={`font-marker text-2xl text-rose-400 transition-opacity duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                    Fresher Approach: Direct SQL Query on Hard Disk Database
+                  <p className="font-board text-xl text-rose-400 mt-1">
+                    Direct SQL query to database disk:
                   </p>
                 </div>
 
-                {/* Center Hand-Drawn Tracing Diagram */}
+                {/* Hand-Drawn Wobbly Diagram */}
                 <div className="my-auto py-2">
                   <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
                     
-                    {/* Crowd of Users (Drawn by hand with SVG strokes) */}
+                    {/* Hand-drawn Wobbly User Crowd */}
                     <div className="flex flex-col items-center">
-                      <svg className="w-40 h-14 draw-stroke-1" viewBox="0 0 150 45" fill="none">
+                      <svg className="w-36 h-12 draw-stroke-1" viewBox="0 0 150 45" fill="none">
                         <circle cx="20" cy="12" r="7" stroke="#ffffff" strokeWidth="2.5" />
                         <circle cx="45" cy="10" r="7" stroke="#ffffff" strokeWidth="2.5" />
                         <circle cx="70" cy="13" r="7" stroke="#ffffff" strokeWidth="2.5" />
                         <circle cx="95" cy="11" r="7" stroke="#ffffff" strokeWidth="2.5" />
                         <circle cx="120" cy="14" r="7" stroke="#ffffff" strokeWidth="2.5" />
-                        <path d="M 10 35 Q 20 25 30 35 M 35 33 Q 45 23 55 33 M 60 36 Q 70 26 80 36 M 85 34 Q 95 24 105 34 M 110 37 Q 120 27 130 37" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" />
+                        <path d="M 10 35 C 18 26, 24 24, 30 35 M 35 33 C 43 24, 48 24, 55 33 M 60 36 C 68 25, 74 27, 80 36 M 85 34 C 93 23, 98 25, 105 34 M 110 37 C 118 26, 124 28, 130 37" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" />
                       </svg>
-                      <span className="font-marker text-2xl text-yellow-300 mt-1">
-                        100,000 Hungry Users
+                      <span className="font-board text-xl text-yellow-300 font-bold mt-1">
+                        100K Users
                       </span>
-                      <span className="font-marker text-xl text-slate-300">
+                      <span className="font-board text-base text-slate-300">
                         Hitting Swiggy App
                       </span>
                     </div>
 
-                    {/* Pink Arrow Traced in real time */}
-                    <div className={`flex flex-col items-center transition-all duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                      <svg className="w-32 h-10 draw-stroke-2" viewBox="0 0 120 35" fill="none">
-                        <path d="M 5 18 L 105 18" stroke="#f43f5e" strokeWidth="3" strokeDasharray="6 4" strokeLinecap="round" />
-                        <path d="M 95 10 L 112 18 L 95 26" stroke="#f43f5e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span className="font-marker text-2xl text-rose-400">
-                        SELECT * FROM menu
-                      </span>
-                    </div>
+                    {/* Wobbly Pink Arrow (Hand-drawn stroke tracing) */}
+                    {drawPhase >= 2 && (
+                      <div className="flex flex-col items-center">
+                        <svg className="w-36 h-10 draw-stroke-1" viewBox="0 0 120 30" fill="none">
+                          <path d="M 6 16 C 35 13, 70 19, 108 15" stroke="#f43f5e" strokeWidth="3" strokeLinecap="round" />
+                          <path d="M 96 8 C 103 12, 107 14, 112 15 C 106 18, 101 22, 97 25" stroke="#f43f5e" strokeWidth="3" strokeLinecap="round" />
+                        </svg>
+                        <span className="font-board text-lg text-rose-400 font-bold">
+                          SELECT * FROM menu
+                        </span>
+                      </div>
+                    )}
 
-                    {/* Postgres Cylinder Traced with big cross */}
-                    <div className={`flex flex-col items-center transition-all duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                      <svg className="w-32 h-36 draw-stroke-2" viewBox="0 0 90 100" fill="none">
-                        <ellipse cx="45" cy="20" rx="36" ry="12" stroke="#f43f5e" strokeWidth="3" />
-                        <path d="M 9 20 L 9 80 Q 45 94 81 80 L 81 20" stroke="#f43f5e" strokeWidth="3" fill="#1c070b" />
-                        <path d="M 9 50 Q 45 64 81 50" stroke="#f43f5e" strokeWidth="2.5" strokeDasharray="4 3" />
-                        <path d="M 9 80 Q 45 94 81 80" stroke="#f43f5e" strokeWidth="3" />
-                        {/* Red Cross ✗ */}
-                        {writePhase >= 3 && (
-                          <path d="M 20 22 L 70 78 M 70 22 L 20 78" stroke="#ef4444" strokeWidth="5" strokeLinecap="round" className="draw-stroke-3" />
-                        )}
-                      </svg>
-                      <span className="font-marker text-2xl text-rose-300">
-                        Postgres DB (Hard Disk)
-                      </span>
-                      <span className="font-marker text-xl text-rose-400">
-                        100% Disk I/O Overload!
-                      </span>
-                    </div>
+                    {/* Wobbly Hand-Drawn Postgres DB Cylinder */}
+                    {drawPhase >= 2 && (
+                      <div className="flex flex-col items-center">
+                        <svg className="w-32 h-32 draw-stroke-2" viewBox="0 0 90 90" fill="none">
+                          {/* Wobbly Top Ellipse */}
+                          <path d="M 12 20 C 13 10, 77 10, 78 20 C 78 29, 11 29, 12 20" stroke="#f43f5e" strokeWidth="3" />
+                          {/* Wobbly Body */}
+                          <path d="M 12 20 C 10 40, 14 60, 12 75 C 25 86, 65 85, 78 75 C 76 60, 80 40, 78 20" stroke="#f43f5e" strokeWidth="3" fill="#150508" />
+                          {/* Wobbly Rib */}
+                          <path d="M 13 48 C 28 56, 62 56, 77 48" stroke="#f43f5e" strokeWidth="2.5" strokeDasharray="4 3" />
+                          {/* Wobbly Cross ✗ */}
+                          {drawPhase >= 3 && (
+                            <path d="M 22 26 C 36 40, 50 56, 68 70 M 68 26 C 52 42, 38 56, 22 70" stroke="#ef4444" strokeWidth="5" strokeLinecap="round" className="draw-stroke-3" />
+                          )}
+                        </svg>
+                        <span className="font-board text-xl text-rose-300 font-bold">
+                          Postgres (Disk)
+                        </span>
+                        <span className="font-board text-base text-rose-400">
+                          100% Disk I/O Crash!
+                        </span>
+                      </div>
+                    )}
 
                   </div>
 
-                  {/* Crash Annotation */}
-                  <div className={`mt-4 p-3 rounded-xl border border-rose-900 bg-rose-950/40 max-w-lg mx-auto text-center transition-all duration-700 ${writePhase >= 4 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-                    <p className="font-marker text-3xl text-rose-400 font-bold">
-                      ✗ 504 Gateway Timeout: Hard Disk Crash!
-                    </p>
-                    <p className="font-marker text-2xl text-slate-200">
-                      Disk can only handle ~1,000 IOPS. 100K queries choke the queue in 2 seconds.
-                    </p>
-                  </div>
+                  {/* Hand-drawn Wobbly Crash Box */}
+                  {drawPhase >= 3 && (
+                    <div className="mt-4 max-w-md mx-auto text-center">
+                      <div className="relative p-3">
+                        <svg className="absolute inset-0 w-full h-full draw-stroke-3 pointer-events-none" viewBox="0 0 400 80" fill="none">
+                          <path d="M 8 10 C 120 7, 280 12, 392 9 C 395 32, 391 58, 393 72 C 275 75, 125 71, 7 74 C 9 52, 6 30, 8 10 Z" stroke="#f43f5e" strokeWidth="2.5" />
+                        </svg>
+                        <p className="font-board text-xl text-rose-400 font-bold">
+                          ✗ 504 Gateway Timeout: Hard Disk Crash!
+                        </p>
+                        <p className="font-board text-base text-slate-200">
+                          Disk limit ~1,000 IOPS. 100K queries choke the disk in 2 seconds.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                 </div>
 
-                {/* Bottom Status */}
+                {/* Hand-drawn Bottom Annotation */}
                 <div className="pt-2 border-t border-slate-900 flex items-center justify-between">
-                  <span className="font-marker text-2xl text-slate-300">
-                    Rule 1: Never make the hard disk answer read-heavy traffic
+                  <span className="font-board text-lg text-slate-300">
+                    Rule 1: Never let 100K users hit hard disk directly
                   </span>
-                  <span className="font-marker text-2xl text-rose-400">
-                    Fresher Filtered Out ✗
+                  <span className="font-board text-lg text-rose-400">
+                    Direct SQL = Dead Server ✗
                   </span>
                 </div>
 
               </div>
             )}
 
-            {/* SLIDE 2: The Biryani Counter Analogy */}
+            {/* SLIDE 2: Biryani Counter Analogy */}
             {currentStage === 1 && (
               <div className="w-full h-full flex flex-col justify-between">
                 
-                {/* Top Section */}
-                <div className="space-y-1">
-                  <p className="font-marker text-3xl sm:text-4xl text-white">
-                    The Bawarchi Biryani Analogy (Kitchen vs Counter)
+                {/* Title */}
+                <div>
+                  <p className="font-board text-2xl sm:text-3xl text-white font-bold">
+                    The Bawarchi Biryani Analogy
                   </p>
-                  <p className={`font-marker text-2xl text-yellow-300 transition-opacity duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                    How real restaurants handle 10,000 customers without collapsing:
+                  <p className="font-board text-xl text-yellow-300 mt-1">
+                    Kitchen Chef vs Front Hot-Box Counter:
                   </p>
                 </div>
 
-                {/* Center Hand-Drawn Comparison */}
+                {/* Hand-drawn Comparison */}
                 <div className="my-auto py-2">
                   <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
                     
-                    {/* The Kitchen Chef (Database) */}
-                    <div className="relative pl-6">
-                      <svg className="absolute left-0 top-0 h-full w-4 draw-stroke-1" viewBox="0 0 16 110" fill="none">
-                        <path d="M 12 2 Q 4 4 4 16 L 4 94 Q 4 106 12 108" stroke="#f43f5e" strokeWidth="3" strokeLinecap="round" />
+                    {/* Wobbly Kitchen Box */}
+                    <div className="relative p-4">
+                      <svg className="absolute inset-0 w-full h-full draw-stroke-1 pointer-events-none" viewBox="0 0 260 120" fill="none">
+                        <path d="M 8 12 C 85 8, 175 14, 252 10 C 255 45, 251 85, 253 110 C 170 114, 85 108, 6 112 C 9 78, 6 42, 8 12 Z" stroke="#f43f5e" strokeWidth="2.5" />
                       </svg>
-                      
-                      <p className="font-marker text-3xl text-rose-400 font-bold">
-                        The Kitchen (Postgres DB)
+                      <p className="font-board text-2xl text-rose-400 font-bold">
+                        Kitchen (Postgres DB)
                       </p>
-                      <p className="font-marker text-2xl text-slate-200 mt-1">
-                        • Cooks raw meat & rice from scratch
+                      <p className="font-board text-lg text-slate-200 mt-1">
+                        • Cooks raw rice & meat from scratch
                       </p>
-                      <p className="font-marker text-2xl text-slate-200">
-                        • Takes 20-30 minutes per handi
+                      <p className="font-board text-lg text-slate-200">
+                        • 20 - 30 minutes per order
                       </p>
-                      <p className="font-marker text-2xl text-rose-300 mt-1">
-                        ✗ 1,000 people enter kitchen = Chef collapses!
+                      <p className="font-board text-base text-rose-300 mt-1">
+                        ✗ 1,000 customers in kitchen = Chef dies!
                       </p>
                     </div>
 
-                    {/* The Counter Hot-Box (Redis Cache) */}
-                    <div className={`relative pl-6 transition-all duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                      <svg className="absolute left-0 top-0 h-full w-4 draw-stroke-2" viewBox="0 0 16 110" fill="none">
-                        <path d="M 12 2 Q 4 4 4 16 L 4 94 Q 4 106 12 108" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" />
+                    {/* Wobbly Front Counter Box */}
+                    {drawPhase >= 2 && (
+                      <div className="relative p-4">
+                        <svg className="absolute inset-0 w-full h-full draw-stroke-2 pointer-events-none" viewBox="0 0 260 120" fill="none">
+                          <path d="M 10 10 C 90 14, 170 8, 250 12 C 253 48, 249 82, 252 110 C 172 107, 92 113, 8 109 C 11 75, 7 40, 10 10 Z" stroke="#4ade80" strokeWidth="2.5" />
+                        </svg>
+                        <p className="font-board text-2xl text-emerald-400 font-bold">
+                          Front Counter (Redis)
+                        </p>
+                        <p className="font-board text-lg text-slate-200 mt-1">
+                          • 50 biryani packets pre-packed
+                        </p>
+                        <p className="font-board text-lg text-slate-200">
+                          • 2 seconds to hand to customer!
+                        </p>
+                        <p className="font-board text-base text-emerald-300 mt-1">
+                          ✓ Chef in kitchen is never disturbed!
+                        </p>
+                      </div>
+                    )}
+
+                  </div>
+
+                  {/* Wobbly Yellow Curly Bracket */}
+                  {drawPhase >= 3 && (
+                    <div className="mt-6 text-center">
+                      <svg className="w-full max-w-md mx-auto h-8 draw-stroke-3" viewBox="0 0 350 25" fill="none">
+                        <path 
+                          d="M 12 18 C 80 17, 160 19, 170 19 C 174 19, 175 10, 175 6 C 175 10, 177 19, 180 19 C 190 19, 270 17, 338 18" 
+                          stroke="#facc15" 
+                          strokeWidth="2.5" 
+                          strokeLinecap="round" 
+                        />
                       </svg>
-                      
-                      <p className="font-marker text-3xl text-emerald-400 font-bold">
-                        Front Hot-Box (Redis Cache)
-                      </p>
-                      <p className="font-marker text-2xl text-slate-200 mt-1">
-                        • 50 biryani packets pre-packed & hot
-                      </p>
-                      <p className="font-marker text-2xl text-slate-200">
-                        • Takes 2 seconds to hand to customer!
-                      </p>
-                      <p className="font-marker text-2xl text-emerald-300 mt-1">
-                        ✓ Chef in kitchen is never disturbed!
+                      <p className="font-board text-2xl text-yellow-300 font-bold">
+                        {`{ 2 Seconds at Counter vs 20 Minutes in Kitchen }`}
                       </p>
                     </div>
+                  )}
 
-                  </div>
-
-                  {/* Yellow Curly Bracket across the span */}
-                  <div className={`mt-6 text-center transition-all duration-700 ${writePhase >= 3 ? 'opacity-100' : 'opacity-0'}`}>
-                    <svg className="w-full max-w-md mx-auto h-8 draw-stroke-3" viewBox="0 0 350 25" fill="none">
-                      <path 
-                        d="M 10 18 Q 80 18 160 18 Q 175 18 175 5 Q 175 18 190 18 Q 270 18 340 18" 
-                        stroke="#facc15" 
-                        strokeWidth="3" 
-                        strokeLinecap="round" 
-                      />
-                    </svg>
-                    <p className="font-marker text-3xl text-yellow-300 font-bold">
-                      {`{ 2 Seconds at Counter vs 20 Minutes in Kitchen }`}
-                    </p>
-                  </div>
                 </div>
 
-                {/* Bottom Status */}
+                {/* Bottom Annotation */}
                 <div className="pt-2 border-t border-slate-900 flex items-center justify-between">
-                  <span className="font-marker text-2xl text-slate-300">
-                    Core Rule: Keep hot frequently-requested items ready on the front counter
+                  <span className="font-board text-lg text-slate-300">
+                    Intuition: Keep hot frequently-ordered items ready on the front counter!
                   </span>
-                  <span className="font-marker text-2xl text-emerald-400">
+                  <span className="font-board text-lg text-emerald-400">
                     100x Faster Handover ✓
                   </span>
                 </div>
@@ -422,93 +428,99 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
               </div>
             )}
 
-            {/* SLIDE 3: The Architecture (RAM vs Hard Disk) */}
+            {/* SLIDE 3: RAM vs Disk */}
             {currentStage === 2 && (
               <div className="w-full h-full flex flex-col justify-between">
                 
-                {/* Top Section */}
-                <div className="space-y-1">
-                  <p className="font-marker text-3xl sm:text-4xl text-white">
-                    Production Architecture: In-Memory RAM (Redis)
+                {/* Title */}
+                <div>
+                  <p className="font-board text-2xl sm:text-3xl text-white font-bold">
+                    In-Memory RAM (Redis) Architecture
                   </p>
-                  <p className={`font-marker text-2xl text-sky-400 transition-opacity duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                    RAM Speed (Nanoseconds) vs Hard Disk (Milliseconds)
+                  <p className="font-board text-xl text-sky-400 mt-1">
+                    RAM (Nanoseconds) vs Hard Disk (Milliseconds)
                   </p>
                 </div>
 
-                {/* Center Flow Diagram */}
+                {/* Hand-drawn Architecture Diagram */}
                 <div className="my-auto py-2">
                   <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                     
-                    {/* User App */}
-                    <div className="flex flex-col items-center">
-                      <div className="w-24 h-22 rounded-2xl border-2 border-white flex flex-col items-center justify-center bg-black p-2">
-                        <span className="font-marker text-2xl text-white">App User</span>
-                        <span className="font-marker text-lg text-slate-300">GET /menu/101</span>
-                      </div>
-                    </div>
-
-                    {/* Step 1 Arrow: Check Redis */}
-                    <div className={`flex flex-col items-center transition-all duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                      <span className="font-marker text-2xl text-sky-400 font-bold">1. Check RAM</span>
-                      <svg className="w-24 h-8 draw-stroke-2" viewBox="0 0 90 20" fill="none">
-                        <path d="M 5 10 L 80 10" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" />
-                        <path d="M 72 4 L 82 10 L 72 16" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" />
+                    {/* Wobbly User Box */}
+                    <div className="relative p-3 flex flex-col items-center">
+                      <svg className="w-24 h-20 draw-stroke-1" viewBox="0 0 90 70" fill="none">
+                        <path d="M 6 8 C 30 6, 60 9, 84 7 C 86 28, 83 48, 85 64 C 60 62, 30 65, 5 63 C 7 42, 5 22, 6 8 Z" stroke="#ffffff" strokeWidth="2.5" />
                       </svg>
+                      <span className="font-board text-lg text-white font-bold mt-1">App User</span>
+                      <span className="font-board text-xs text-slate-400">GET /menu/101</span>
                     </div>
 
-                    {/* REDIS CACHE (RAM) */}
-                    <div className={`flex flex-col items-center transition-all duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                      <div className="w-28 h-28 rounded-2xl border-2 border-emerald-400 bg-emerald-950/40 flex flex-col items-center justify-center p-2 text-center">
-                        <span className="font-marker text-3xl text-emerald-300 font-bold leading-none">REDIS</span>
-                        <span className="font-marker text-xl text-yellow-300 leading-none mt-1">In-Memory RAM</span>
-                        <span className="font-marker text-lg text-emerald-400 mt-1">1.2ms lookup</span>
+                    {/* Wobbly Cyan Arrow */}
+                    {drawPhase >= 2 && (
+                      <div className="flex flex-col items-center">
+                        <span className="font-board text-base text-sky-400 font-bold">1. Check RAM</span>
+                        <svg className="w-24 h-6 draw-stroke-1" viewBox="0 0 90 20" fill="none">
+                          <path d="M 6 11 C 32 8, 58 13, 80 10" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 70 5 C 75 8, 78 9, 82 10 C 78 12, 75 14, 71 17" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" />
+                        </svg>
                       </div>
-                      <span className="font-marker text-2xl text-emerald-400 font-bold mt-1">
-                        CACHE HIT! (99.9%)
-                      </span>
-                    </div>
+                    )}
 
-                    {/* Step 2 Arrow: Cache Miss Only */}
-                    <div className={`flex flex-col items-center transition-all duration-700 ${writePhase >= 3 ? 'opacity-100' : 'opacity-0'}`}>
-                      <span className="font-marker text-xl text-amber-400">2. If Cache Miss</span>
-                      <svg className="w-24 h-8 draw-stroke-3" viewBox="0 0 90 20" fill="none">
-                        <path d="M 5 10 L 80 10" stroke="#f59e0b" strokeWidth="2.5" strokeDasharray="5 3" strokeLinecap="round" />
-                        <path d="M 72 4 L 82 10 L 72 16" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" />
-                      </svg>
-                    </div>
-
-                    {/* POSTGRES DB */}
-                    <div className={`flex flex-col items-center transition-all duration-700 ${writePhase >= 3 ? 'opacity-100' : 'opacity-0'}`}>
-                      <div className="w-24 h-22 rounded-2xl border-2 border-slate-600 bg-black flex flex-col items-center justify-center text-center p-2">
-                        <span className="font-marker text-2xl text-slate-300 font-bold">Postgres</span>
-                        <span className="font-marker text-lg text-slate-400">Hard Disk</span>
+                    {/* Wobbly Redis Box */}
+                    {drawPhase >= 2 && (
+                      <div className="relative p-3 flex flex-col items-center">
+                        <svg className="w-28 h-26 draw-stroke-2" viewBox="0 0 100 85" fill="none">
+                          <path d="M 8 10 C 38 6, 68 12, 92 8 C 95 32, 91 58, 93 76 C 65 79, 35 74, 7 77 C 9 52, 6 30, 8 10 Z" stroke="#4ade80" strokeWidth="3" fill="#04200f" />
+                        </svg>
+                        <span className="font-board text-2xl text-emerald-300 font-bold leading-none mt-1">REDIS</span>
+                        <span className="font-board text-base text-yellow-300 leading-none">In-Memory RAM</span>
+                        <span className="font-board text-sm text-emerald-400 font-bold mt-1">1.2ms latency</span>
                       </div>
-                      <span className="font-marker text-lg text-slate-400 mt-1">
-                        Queried 1 time only!
-                      </span>
-                    </div>
+                    )}
+
+                    {/* Wobbly Amber Arrow */}
+                    {drawPhase >= 3 && (
+                      <div className="flex flex-col items-center">
+                        <span className="font-board text-xs text-amber-400">2. If Miss</span>
+                        <svg className="w-20 h-6 draw-stroke-2" viewBox="0 0 80 20" fill="none">
+                          <path d="M 6 10 C 28 8, 50 12, 72 10" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 3" strokeLinecap="round" />
+                          <path d="M 64 5 C 68 7, 70 9, 74 10 C 70 12, 68 13, 64 16" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                    )}
+
+                    {/* Wobbly Postgres Box */}
+                    {drawPhase >= 3 && (
+                      <div className="relative p-3 flex flex-col items-center">
+                        <svg className="w-24 h-20 draw-stroke-3" viewBox="0 0 90 70" fill="none">
+                          <path d="M 7 9 C 32 6, 60 11, 83 8 C 85 28, 82 48, 84 63 C 60 61, 32 64, 6 62 C 8 42, 6 22, 7 9 Z" stroke="#64748b" strokeWidth="2.5" />
+                        </svg>
+                        <span className="font-board text-lg text-slate-300 font-bold mt-1">Postgres</span>
+                        <span className="font-board text-xs text-slate-400">Hard Disk (45ms)</span>
+                      </div>
+                    )}
 
                   </div>
 
-                  {/* Math explanation in yellow marker */}
-                  <div className={`mt-4 p-2.5 rounded-xl border border-slate-900 bg-slate-950/80 max-w-lg mx-auto text-center transition-all duration-700 ${writePhase >= 4 ? 'opacity-100' : 'opacity-0'}`}>
-                    <p className="font-marker text-2xl text-yellow-300">
-                      User 1 queries DB → stores in Redis (`SET menu:101 ... EX 3600`)
-                      <br />
-                      <span className="text-emerald-400">
-                        Next 99,999 users get response from RAM in 1ms! DB CPU stays at 4%!
-                      </span>
-                    </p>
-                  </div>
+                  {/* Wobbly Handwritten Note */}
+                  {drawPhase >= 3 && (
+                    <div className="mt-4 text-center">
+                      <p className="font-board text-xl text-yellow-300">
+                        User 1 queries DB → saves in Redis (`SET menu:101 ... EX 3600`)
+                      </p>
+                      <p className="font-board text-xl text-emerald-400 font-bold">
+                        Next 99,999 users get 1ms response from RAM! DB CPU stays at 4%!
+                      </p>
+                    </div>
+                  )}
                 </div>
 
-                {/* Bottom Status */}
+                {/* Bottom Annotation */}
                 <div className="pt-2 border-t border-slate-900 flex items-center justify-between">
-                  <span className="font-marker text-2xl text-slate-300">
-                    O(1) In-Memory Lookup: Instant response without paying massive DB server bills
+                  <span className="font-board text-lg text-slate-300">
+                    O(1) Hash Map: Instant lookup without paying heavy database server bills
                   </span>
-                  <span className="font-marker text-2xl text-emerald-400">
+                  <span className="font-board text-lg text-emerald-400">
                     Production Architecture ✓
                   </span>
                 </div>
@@ -516,72 +528,83 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
               </div>
             )}
 
-            {/* SLIDE 4: The Interview Trap (Cache Invalidation & TTL) */}
+            {/* SLIDE 4: Stale Cache Trap */}
             {currentStage === 3 && (
               <div className="w-full h-full flex flex-col justify-between">
                 
-                {/* Top Section */}
-                <div className="space-y-1">
-                  <p className="font-marker text-3xl sm:text-4xl text-rose-400">
-                    The Interview Trap: "Stale Cache" Invalidation
+                {/* Title */}
+                <div>
+                  <p className="font-board text-2xl sm:text-3xl text-rose-400 font-bold">
+                    The Trap: "Stale Cache" Invalidation
                   </p>
-                  <p className={`font-marker text-2xl text-yellow-300 transition-opacity duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                    Recruiter asks: "Restaurant owner changes Biryani price from ₹250 to ₹290. What happens?"
+                  <p className="font-board text-xl text-yellow-300 mt-1">
+                    Recruiter asks: "Biryani price changes from ₹250 to ₹290. What happens?"
                   </p>
                 </div>
 
-                {/* Center Trap vs Senior Solution */}
+                {/* Hand-drawn Comparison */}
                 <div className="my-auto py-2">
                   <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
                     
-                    {/* The Stale Data Bug */}
-                    <div className="p-4 rounded-2xl border border-rose-900 bg-rose-950/30 text-left">
-                      <p className="font-marker text-3xl text-rose-400 font-bold">
+                    {/* Wobbly Bug Box */}
+                    <div className="relative p-4">
+                      <svg className="absolute inset-0 w-full h-full draw-stroke-1 pointer-events-none" viewBox="0 0 260 120" fill="none">
+                        <path d="M 8 10 C 85 8, 175 12, 252 9 C 255 45, 251 85, 253 111 C 170 114, 85 109, 6 112 C 9 78, 6 42, 8 10 Z" stroke="#f43f5e" strokeWidth="2.5" />
+                      </svg>
+                      <p className="font-board text-2xl text-rose-400 font-bold">
                         The Stale Data Bug ✗
                       </p>
-                      <p className="font-marker text-2xl text-slate-200 mt-2">
-                        • Postgres updated: <span className="text-white font-bold">price = ₹290</span>
+                      <p className="font-board text-lg text-slate-200 mt-1">
+                        • Postgres DB: price = ₹290
                       </p>
-                      <p className="font-marker text-2xl text-slate-200">
-                        • Redis still holds: <span className="text-rose-400 font-bold">price = ₹250</span>
+                      <p className="font-board text-lg text-slate-200">
+                        • Redis RAM: price = ₹250 (Old!)
                       </p>
-                      <p className="font-marker text-2xl text-rose-300 mt-1">
-                        Customer orders at ₹250! Restaurant loses ₹40 on every single order!
+                      <p className="font-board text-base text-rose-300 mt-1">
+                        Customer orders at ₹250! Restaurant loses ₹40 on every order!
                       </p>
                     </div>
 
-                    {/* Senior Solution */}
-                    <div className={`p-4 rounded-2xl border border-emerald-800 bg-emerald-950/30 text-left transition-all duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                      <p className="font-marker text-3xl text-emerald-400 font-bold">
-                        Senior Engineer Solution ✓
-                      </p>
-                      <p className="font-marker text-2xl text-slate-200 mt-2">
-                        1. <strong className="text-yellow-300">TTL (Time-To-Live):</strong> Key expires automatically in 300s.
-                      </p>
-                      <p className="font-marker text-2xl text-slate-200">
-                        2. <strong className="text-emerald-400">Write-Through Invalidation:</strong> Whenever owner updates DB → Server calls:
-                      </p>
-                      <div className="mt-1 px-3 py-1 rounded bg-black border border-emerald-700 text-emerald-300 font-marker text-xl inline-block">
-                        redis.del("menu:101")
+                    {/* Wobbly Solution Box */}
+                    {drawPhase >= 2 && (
+                      <div className="relative p-4">
+                        <svg className="absolute inset-0 w-full h-full draw-stroke-2 pointer-events-none" viewBox="0 0 260 120" fill="none">
+                          <path d="M 10 9 C 90 13, 170 8, 250 11 C 253 48, 249 82, 252 110 C 172 108, 92 113, 8 109 C 11 75, 7 40, 10 9 Z" stroke="#4ade80" strokeWidth="2.5" />
+                        </svg>
+                        <p className="font-board text-2xl text-emerald-400 font-bold">
+                          Senior Fix ✓
+                        </p>
+                        <p className="font-board text-lg text-slate-200 mt-1">
+                          1. TTL: Auto-expires in 300 seconds
+                        </p>
+                        <p className="font-board text-lg text-slate-200">
+                          2. Write-Through: On DB edit:
+                        </p>
+                        <p className="font-board text-lg text-emerald-300 font-bold mt-1">
+                          redis.del("menu:101")
+                        </p>
                       </div>
+                    )}
+
+                  </div>
+
+                  {/* Wobbly Hand-Drawn Quote */}
+                  {drawPhase >= 3 && (
+                    <div className="mt-4 text-center">
+                      <p className="font-board text-xl text-yellow-300 font-bold">
+                        "Two hard problems in Computer Science: Cache Invalidation and Naming Things."
+                      </p>
                     </div>
+                  )}
 
-                  </div>
-
-                  {/* Yellow Marker Quote */}
-                  <div className={`mt-4 text-center transition-all duration-700 ${writePhase >= 3 ? 'opacity-100' : 'opacity-0'}`}>
-                    <p className="font-marker text-3xl text-yellow-300 font-bold">
-                      "There are only two hard problems in Computer Science: Cache Invalidation and Naming Things."
-                    </p>
-                  </div>
                 </div>
 
-                {/* Bottom Status */}
+                {/* Bottom Annotation */}
                 <div className="pt-2 border-t border-slate-900 flex items-center justify-between">
-                  <span className="font-marker text-2xl text-slate-300">
-                    Senior Reflex: Always state your Invalidation Strategy before the recruiter has to ask!
+                  <span className="font-board text-lg text-slate-300">
+                    Senior Reflex: Always state Invalidation Strategy before recruiter asks!
                   </span>
-                  <span className="font-marker text-2xl text-emerald-400">
+                  <span className="font-board text-lg text-emerald-400">
                     Trap Handled ✓
                   </span>
                 </div>
@@ -589,72 +612,83 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
               </div>
             )}
 
-            {/* SLIDE 5: The Engineering Reality (Brutal Truth, No Fake Hype) */}
+            {/* SLIDE 5: Engineering Reality (No Fake 18 LPA Hype) */}
             {currentStage === 4 && (
               <div className="w-full h-full flex flex-col justify-between">
                 
-                {/* Top Section */}
-                <div className="space-y-1">
-                  <p className="font-marker text-3xl sm:text-4xl text-emerald-400 font-bold">
-                    The Placement Reality: System Resilience & Scalability
+                {/* Title */}
+                <div>
+                  <p className="font-board text-2xl sm:text-3xl text-emerald-400 font-bold">
+                    Placement Reality: Production Resilience
                   </p>
-                  <p className={`font-marker text-2xl text-slate-300 transition-opacity duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                    No fake promises. Here is what real recruiters actually test:
+                  <p className="font-board text-xl text-slate-300 mt-1">
+                    No fake guarantees. What technical recruiters actually evaluate:
                   </p>
                 </div>
 
-                {/* Center Comparison: Fresher vs Senior */}
+                {/* Hand-drawn Comparison */}
                 <div className="my-auto py-2">
                   <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
                     
-                    {/* Fresher Blind Spot */}
-                    <div className="p-4 rounded-2xl border border-rose-900 bg-rose-950/30 text-left">
-                      <span className="font-marker text-2xl text-rose-400 font-bold block">
-                        Fresher Blind Spot ✗
-                      </span>
-                      <p className="font-marker text-2xl text-slate-200 mt-2">
+                    {/* Wobbly Fresher Box */}
+                    <div className="relative p-4">
+                      <svg className="absolute inset-0 w-full h-full draw-stroke-1 pointer-events-none" viewBox="0 0 260 120" fill="none">
+                        <path d="M 8 10 C 85 8, 175 12, 252 9 C 255 45, 251 85, 253 111 C 170 114, 85 109, 6 112 C 9 78, 6 42, 8 10 Z" stroke="#f43f5e" strokeWidth="2.5" />
+                      </svg>
+                      <p className="font-board text-2xl text-rose-400 font-bold">
+                        Fresher Rejection Filter ✗
+                      </p>
+                      <p className="font-board text-lg text-slate-200 mt-1">
                         • Memorizes syntax & tutorial code
                       </p>
-                      <p className="font-marker text-2xl text-slate-200">
-                        • Can't explain what happens under 100K traffic
+                      <p className="font-board text-lg text-slate-200">
+                        • Can't handle 100K traffic questions
                       </p>
-                      <p className="font-marker text-2xl text-rose-300 mt-1">
-                        Filtered out in round 1 screening because system crashes on basic traffic!
-                      </p>
-                    </div>
-
-                    {/* S.A.I. Senior Mentorship Reality */}
-                    <div className={`p-4 rounded-2xl border border-emerald-600 bg-emerald-950/40 text-left transition-all duration-700 ${writePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                      <span className="font-marker text-2xl text-emerald-400 font-bold block">
-                        Senior Engineering Reality ✓
-                      </span>
-                      <p className="font-marker text-2xl text-slate-200 mt-2">
-                        • You understand RAM vs Hard Disk bottlenecks
-                      </p>
-                      <p className="font-marker text-2xl text-slate-200">
-                        • You handle Cache Invalidation & Edge Cases
-                      </p>
-                      <p className="font-marker text-2xl text-emerald-300 mt-1">
-                        Recruiter sees production composure: you build systems that never go down!
+                      <p className="font-board text-base text-rose-300 mt-1">
+                        Filtered out in round 1 because system crashes!
                       </p>
                     </div>
 
+                    {/* Wobbly Senior Reality Box */}
+                    {drawPhase >= 2 && (
+                      <div className="relative p-4">
+                        <svg className="absolute inset-0 w-full h-full draw-stroke-2 pointer-events-none" viewBox="0 0 260 120" fill="none">
+                          <path d="M 10 9 C 90 13, 170 8, 250 11 C 253 48, 249 82, 252 110 C 172 108, 92 113, 8 109 C 11 75, 7 40, 10 9 Z" stroke="#4ade80" strokeWidth="2.5" />
+                        </svg>
+                        <p className="font-board text-2xl text-emerald-400 font-bold">
+                          Production Maturity ✓
+                        </p>
+                        <p className="font-board text-lg text-slate-200 mt-1">
+                          • Understands RAM vs Disk bottlenecks
+                        </p>
+                        <p className="font-board text-lg text-slate-200">
+                          • Solves Cache Invalidation & TTL
+                        </p>
+                        <p className="font-board text-base text-emerald-300 mt-1">
+                          Recruiter sees you build systems that never crash!
+                        </p>
+                      </div>
+                    )}
+
                   </div>
 
-                  {/* Grounded Truth Callout */}
-                  <div className={`mt-6 text-center transition-all duration-700 ${writePhase >= 3 ? 'opacity-100' : 'opacity-0'}`}>
-                    <p className="font-marker text-3xl text-yellow-300 font-bold">
-                      "Real placement prep is not about memorizing syntax. It is about understanding where systems fail."
-                    </p>
-                  </div>
+                  {/* Wobbly Truth Callout */}
+                  {drawPhase >= 3 && (
+                    <div className="mt-6 text-center">
+                      <p className="font-board text-xl text-yellow-300 font-bold">
+                        "Placement prep is not memorizing syntax. It is understanding where systems fail."
+                      </p>
+                    </div>
+                  )}
+
                 </div>
 
-                {/* Bottom Status */}
+                {/* Bottom Annotation */}
                 <div className="pt-2 border-t border-slate-900 flex items-center justify-between">
-                  <span className="font-marker text-2xl text-slate-300">
-                    Grounded Preparation: Zero Toy Projects • Zero Fake Guarantees
+                  <span className="font-board text-lg text-slate-300">
+                    Grounded Preparation: Zero Toy Tutorials • Zero Fake Guarantees
                   </span>
-                  <span className="font-marker text-2xl text-emerald-400">
+                  <span className="font-board text-lg text-emerald-400">
                     Production Composure ✓
                   </span>
                 </div>
@@ -662,10 +696,10 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
               </div>
             )}
 
-            {/* FLOATING GOOGLE MEET CANDIDATE PIP (Bottom Right Corner) */}
-            <div className="absolute bottom-5 right-5 hidden sm:flex items-center gap-2 bg-[#202124]/90 backdrop-blur-md p-2 rounded-2xl border border-slate-700/80 shadow-2xl z-20">
+            {/* Floating Candidate Video Tile (Zone 3 inside frame) */}
+            <div className="absolute bottom-4 right-4 hidden sm:flex items-center gap-2 bg-[#202124]/90 backdrop-blur-md p-2 rounded-2xl border border-slate-700/80 shadow-2xl z-20 font-sans">
               
-              {/* You (Candidate) Video Tile */}
+              {/* You Tile */}
               <div className="w-24 h-16 rounded-xl bg-slate-900 border border-slate-700 flex flex-col justify-between p-1.5 relative overflow-hidden">
                 <div className="flex items-center justify-between">
                   <span className="text-[9px] font-bold text-slate-300 font-sans">You</span>
@@ -676,7 +710,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
                 </div>
               </div>
 
-              {/* Sai Anna Video Tile with active audio rings */}
+              {/* Sai Anna Tile */}
               <div className="w-24 h-16 rounded-xl bg-slate-900 border border-emerald-500/60 flex flex-col justify-between p-1.5 relative overflow-hidden">
                 <div className="flex items-center justify-between">
                   <span className="text-[9px] font-bold text-emerald-400 font-sans">Sai Anna</span>
@@ -691,34 +725,39 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
 
           </div>
 
-          {/* Real-time Typewriter Dialogue Subtitle Bar */}
-          <div className="px-5 py-3 bg-[#171717] border-t border-slate-800 flex items-center gap-3">
+          {/* ZONE 2: THE SUBTITLES (SPEAKING SPACE — PLUS JAKARTA SANS, FADE-IN / FADE-OUT ANIMATION) */}
+          <div className="px-5 py-3.5 bg-[#171717] border-t border-slate-800 flex items-center gap-3 font-sans min-h-[56px]">
             <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs shrink-0 font-sans">
               SA
             </div>
+            
+            {/* Subtitle text with clean opacity fade transition */}
             <div className="flex-1 min-w-0">
-              <p className="text-slate-200 font-marker text-xl sm:text-2xl truncate">
-                "{typedDialogue}"
-                <span className="inline-block w-1.5 h-4 ml-1 bg-emerald-400 animate-pulse"></span>
+              <p 
+                className="text-xs sm:text-sm text-slate-100 font-medium font-sans leading-snug transition-opacity duration-300"
+                style={{ opacity: subtitleOpacity }}
+              >
+                "{activeDialogue || currentStageData.dialogue}"
               </p>
             </div>
-            <span className="text-xs text-slate-400 whitespace-nowrap font-sans">
-              {activeStageData.audioTime}
+            
+            <span className="text-xs text-slate-400 whitespace-nowrap font-sans shrink-0">
+              {currentStageData.time}
             </span>
           </div>
 
-          {/* REALISTIC GOOGLE MEET BOTTOM CONTROL BAR */}
-          <div className="px-6 py-4 bg-[#202124] border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
+          {/* ZONE 3: GOOGLE MEET BOTTOM CONTROL BAR */}
+          <div className="px-6 py-4 bg-[#202124] border-t border-slate-800 flex flex-wrap items-center justify-between gap-4 font-sans">
             
-            {/* Left: Meeting Time & Code */}
+            {/* Meeting Time & ID */}
             <div className="text-xs text-slate-300 font-medium font-sans">
               10:42 AM <span className="text-slate-600 mx-2">|</span> <span className="font-semibold text-white">sai-anna-live-call</span>
             </div>
 
-            {/* Center: Google Meet Circular Control Pills */}
+            {/* Circular Meet Controls */}
             <div className="flex items-center gap-3">
               
-              {/* Mic Button */}
+              {/* Mic Toggle */}
               <button
                 onClick={() => setIsMuted(!isMuted)}
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer ${
@@ -731,15 +770,15 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
                 {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
               </button>
 
-              {/* Camera Button */}
+              {/* Video Toggle */}
               <button
                 className="w-10 h-10 rounded-full bg-[#3c4043] hover:bg-[#4a4e51] text-white flex items-center justify-center transition-all cursor-pointer"
-                title="Camera is active"
+                title="Camera active"
               >
                 <VideoIcon className="w-4 h-4" />
               </button>
 
-              {/* Raise Hand Button */}
+              {/* Raise Hand Toggle */}
               <button
                 onClick={handleRaiseHand}
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer ${
@@ -747,12 +786,12 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
                     ? 'bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold' 
                     : 'bg-[#3c4043] hover:bg-[#4a4e51] text-white'
                 }`}
-                title="Raise hand to ask Anna a question"
+                title="Raise hand to ask a question"
               >
                 <Hand className="w-4 h-4" />
               </button>
 
-              {/* Presenting Screen Badge */}
+              {/* Present Screen Indicator */}
               <div 
                 className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center"
                 title="You are viewing Sai Anna's screen"
@@ -768,7 +807,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
                 <MoreVertical className="w-4 h-4" />
               </button>
 
-              {/* End Call / Leave Button (Triggers 1-on-1 waitlist booking) */}
+              {/* End Call / Schedule */}
               <button
                 onClick={() => onOpenWaitlist('Book 1-on-1 Live Whiteboard Call')}
                 className="px-5 h-10 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ml-2 shadow-sm font-sans"
@@ -780,7 +819,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
 
             </div>
 
-            {/* Right: Meeting Info Shortcuts */}
+            {/* Right Status */}
             <div className="flex items-center gap-3 text-slate-400 text-xs font-sans">
               <button 
                 onClick={() => onOpenWaitlist('Open Whiteboard Chat')}
@@ -789,7 +828,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
               >
                 <MessageSquare className="w-4 h-4" />
               </button>
-              <div className="flex items-center gap-1.5 text-[11px] text-emerald-400">
+              <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-sans">
                 <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                 <span>HD 60 FPS</span>
               </div>
@@ -800,31 +839,31 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
         </div>
 
         {/* 3 Real-World Value Pillars */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 font-sans">
           
           <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-            <h4 className="text-sm font-bold text-slate-950">
+            <h4 className="text-sm font-bold text-slate-950 font-sans">
               Raw Thought Process, Zero Slides
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed font-normal">
+            <p className="text-xs text-slate-600 leading-relaxed font-normal font-sans">
               No generic PowerPoint bullet points or distracting AI video avatars. Sai Anna live-sketches every line, bracket, and arrow by hand so you see how an engineer actually thinks.
             </p>
           </div>
 
           <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-            <h4 className="text-sm font-bold text-slate-950">
+            <h4 className="text-sm font-bold text-slate-950 font-sans">
               Visceral Hand-Drawn Anchors
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed font-normal">
+            <p className="text-xs text-slate-600 leading-relaxed font-normal font-sans">
               Rough brackets, curly braces, and architectural flows. Physical visual markers you can effortlessly recreate and recall under 45-minute technical interview pressure.
             </p>
           </div>
 
           <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-            <h4 className="text-sm font-bold text-slate-950">
+            <h4 className="text-sm font-bold text-slate-950 font-sans">
               Zero Video Bills, 100% Client-Side
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed font-normal">
+            <p className="text-xs text-slate-600 leading-relaxed font-normal font-sans">
               Built as lightweight vector paths and authentic handwriting. Zero streaming bandwidth bills, zero external video hosting dependencies, and instant 60 FPS rendering.
             </p>
           </div>

@@ -2,11 +2,11 @@
 
 @theme {
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-marker: 'Caveat', cursive, sans-serif;
+  --font-board: 'Playpen Sans', cursive, sans-serif;
 }
 
-.font-marker {
-  font-family: 'Caveat', cursive, sans-serif !important;
+.font-board {
+  font-family: 'Playpen Sans', cursive, sans-serif !important;
 }
 
 @layer base {
