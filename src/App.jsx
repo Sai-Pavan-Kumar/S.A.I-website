@@ -31,7 +31,7 @@ export default function App() {
       <CouncilSection onOpenWaitlist={handleOpenWaitlist} />
 
       {/* Visual Memory Tracing on Rough Paper */}
-      <RoughPaperEngine />
+      <RoughPaperEngine onOpenWaitlist={handleOpenWaitlist} />
 
       {/* 5-Stage Methodology: Why Students Fail vs S.A.I. Transformation */}
       <SocraticPipeline />
