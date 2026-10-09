@@ -2,19 +2,42 @@
 
 @layer base {
   :root {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
-    background-color: #090a0f;
-    color: #f1f5f9;
+    background-color: #ffffff;
+    color: #0f172a;
     font-family: var(--font-sans);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Custom subtle grid background */
-.bg-grid-pattern {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Subtle dot grid for clean engineering canvas */
+.bg-dot-grid {
+  background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px);
+  background-size: 20px 20px;
+}
+
+/* Authentic graph paper pattern for rough paper dry-run whiteboard */
+.bg-graph-paper {
+  background-color: #fdfdf9;
+  background-image: 
+    linear-gradient(to right, rgba(203, 213, 225, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(203, 213, 225, 0.4) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Subtle WhatsApp light chat background */
+.bg-whatsapp-pattern {
+  background-color: #efeae2;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
