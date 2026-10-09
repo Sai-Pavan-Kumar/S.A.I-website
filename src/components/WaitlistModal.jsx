@@ -150,7 +150,7 @@ export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General
 
             <p className="text-xs text-slate-600 leading-relaxed max-w-xs mx-auto">
               We've logged your priority request for <strong className="text-slate-900">{selectedTier}</strong>. 
-              You will receive an exclusive WhatsApp invite code when the closed cohort opens.
+              You will receive your private invitation link and onboarding credentials directly via email.
             </p>
 
             <button

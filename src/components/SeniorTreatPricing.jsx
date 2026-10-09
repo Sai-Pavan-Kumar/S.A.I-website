@@ -26,7 +26,7 @@ export default function SeniorTreatPricing({ onOpenWaitlist }) {
       period: '/ month',
       badge: 'ROADMAP & ACCOUNTABILITY',
       badgeStyle: 'bg-blue-50 text-blue-800 border-blue-200',
-      description: 'Brings Ravi Anna into your WhatsApp to build company-specific roadmaps and audit your daily consistency.',
+      description: 'Brings Ravi Anna into your mentorship workspace to build company-specific roadmaps and audit your daily consistency.',
       features: [
         'Full Ravi Anna squad access',
         'Target-company hiring roadmaps (Amazon, TCS Prime)',
@@ -42,7 +42,7 @@ export default function SeniorTreatPricing({ onOpenWaitlist }) {
       period: '/ month',
       badge: 'CORE DSA & HARD PROBLEMS',
       badgeStyle: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-      description: 'Brings Kiran Anna into your WhatsApp for company-specific hard problem sandboxes and mock coding rounds.',
+      description: 'Brings Kiran Anna into your mentorship workspace for company-specific hard problem sandboxes and mock coding rounds.',
       features: [
         'Full Kiran Anna squad access',
         'Company-specific hard problem sandboxes',

@@ -170,7 +170,7 @@ export default function CouncilSection({ onOpenWaitlist }) {
                 </p>
                 <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
                   <span>Socratic Guidance</span>
-                  <span>WhatsApp Verified</span>
+                  <span>Verified S.A.I. Mentor</span>
                 </div>
               </div>
 

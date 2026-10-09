@@ -42,7 +42,6 @@ export default function Hero({ onOpenWaitlist }) {
           {/* Left Column: Focused on WHY */}
           <div className="lg:col-span-7 space-y-7 text-left">
             
-            {/* Bold Headline without clunky pills */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-950 leading-[1.08]">
               The senior brother who walks you into your{' '}
               <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -50,12 +49,12 @@ export default function Hero({ onOpenWaitlist }) {
               </span>
             </h1>
 
-            {/* Apple-grade Copy: Why you need S.A.I. */}
+            {/* Apple-grade Copy */}
             <p className="text-lg sm:text-xl text-slate-600 font-normal leading-relaxed max-w-2xl">
               You attend lectures for four years, but in technical rounds, your mind goes blank on edge cases. 
               Generic AI tutors dump code you copy and forget by tomorrow.
               <br /><br />
-              <strong className="text-slate-950 font-semibold">S.A.I.</strong> puts an experienced senior in your pocket on WhatsApp — breaking down problems with visceral intuition, challenging your blind spots, and holding you accountable until you get placed.
+              <strong className="text-slate-950 font-semibold">S.A.I.</strong> gives you an experienced senior right in your pocket — breaking down problems with visceral intuition, challenging your blind spots, and holding you accountable until you get placed.
             </p>
 
             {/* Live Working Waitlist Form */}
@@ -123,7 +122,7 @@ export default function Hero({ onOpenWaitlist }) {
             </div>
           </div>
 
-          {/* Right Column: Authentic WhatsApp Simulation with Transparent Logo */}
+          {/* Right Column: Custom Messenger Experience with Transparent Logo */}
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-[390px] rounded-[36px] bg-slate-900 p-3 shadow-2xl ring-1 ring-slate-900/10">
               {/* Notch */}
@@ -134,7 +133,7 @@ export default function Hero({ onOpenWaitlist }) {
               {/* Phone Content */}
               <div className="relative rounded-[28px] overflow-hidden bg-[#efeae2] border border-slate-200">
                 
-                {/* WhatsApp Top Bar */}
+                {/* App Top Bar */}
                 <div className="bg-[#075e54] text-white px-4 pt-8 pb-3 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-2.5">
                     <div className="relative">
@@ -152,7 +151,7 @@ export default function Hero({ onOpenWaitlist }) {
                         <span>Sai Anna</span>
                         <span className="text-[9px] bg-emerald-700/80 px-1.5 py-0.2 rounded font-medium">Lead Senior</span>
                       </h4>
-                      <p className="text-[10px] text-emerald-200">Online • The SurfBoard Squad</p>
+                      <p className="text-[10px] text-emerald-200">Online • S.A.I. Mentorship Workspace</p>
                     </div>
                   </div>
 
@@ -245,7 +244,7 @@ export default function Hero({ onOpenWaitlist }) {
                     Ask Sai Anna anything...
                   </div>
                   <button 
-                    onClick={() => onOpenWaitlist('Hero WhatsApp Chat')}
+                    onClick={() => onOpenWaitlist('Hero Chat Interaction')}
                     className="w-7 h-7 rounded-full bg-[#075e54] text-white flex items-center justify-center cursor-pointer"
                   >
                     <ArrowRight className="w-3.5 h-3.5" />

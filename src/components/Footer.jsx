@@ -28,7 +28,7 @@ export default function Footer({ onOpenWaitlist }) {
             </div>
 
             <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
-              Real-world engineering guidance from your digital senior brother on WhatsApp. Helping Tier-2 and Tier-3 engineering candidates clear high-stakes tech placement drives.
+              Real-world engineering guidance from your digital senior brother. Helping Tier-2 and Tier-3 engineering candidates clear high-stakes tech placement drives.
             </p>
 
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] text-slate-700 shadow-2xs">
