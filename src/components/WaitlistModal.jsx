@@ -71,7 +71,7 @@ export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General
         {!submitted ? (
           <div className="space-y-5">
             <div>
-              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-blue-600 block mb-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 block mb-1">
                 Priority Alpha Enrollment
               </span>
               <h3 className="text-2xl font-extrabold text-slate-950 tracking-tight">

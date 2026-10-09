@@ -69,7 +69,7 @@ export default function CouncilSection({ onOpenWaitlist }) {
     <section id="council" className="py-20 md:py-28 bg-slate-50/70 border-b border-slate-200/80 relative">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Section Header: Bold and clean, no pills */}
+        {/* Section Header */}
         <div className="max-w-3xl mb-14 space-y-4">
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950">
             A single chatbot gets confused.{' '}
@@ -106,10 +106,10 @@ export default function CouncilSection({ onOpenWaitlist }) {
         {/* Active Brother Interactive Showcase Box */}
         <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          {/* Left detail card: WHY you need this senior */}
+          {/* Left detail card */}
           <div className="lg:col-span-5 space-y-6">
             <div className="space-y-2">
-              <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${current.badgeColor}`}>
+              <span className={`text-[11px] font-bold tracking-wide uppercase px-2.5 py-0.5 rounded-full border ${current.badgeColor}`}>
                 {current.tier}
               </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950">
@@ -124,7 +124,7 @@ export default function CouncilSection({ onOpenWaitlist }) {
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-              <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase block font-mono">
+              <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase block">
                 Why You Need Him
               </span>
               <p className="text-xs font-semibold text-slate-900 leading-relaxed">
@@ -141,7 +141,7 @@ export default function CouncilSection({ onOpenWaitlist }) {
             </button>
           </div>
 
-          {/* Right WhatsApp interaction preview */}
+          {/* Right messenger interaction preview */}
           <div className="lg:col-span-7 bg-[#efeae2] rounded-2xl p-5 sm:p-6 border border-slate-200 relative overflow-hidden bg-whatsapp-pattern">
             
             <div className="flex items-center justify-between pb-3 mb-4 border-b border-black/5">
@@ -157,7 +157,7 @@ export default function CouncilSection({ onOpenWaitlist }) {
                   <p className="text-[10px] text-slate-500">{current.role}</p>
                 </div>
               </div>
-              <span className="text-[10px] font-mono bg-white/80 px-2 py-0.5 rounded border border-slate-200 text-slate-600">
+              <span className="text-[11px] font-medium bg-white/80 px-2.5 py-0.5 rounded border border-slate-200 text-slate-600">
                 {current.dialogue.audioTime}
               </span>
             </div>

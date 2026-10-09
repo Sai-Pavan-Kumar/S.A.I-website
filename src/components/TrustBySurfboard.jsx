@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, ShieldCheck, Heart } from 'lucide-react';
+import { Users, ShieldCheck, Heart, Quote } from 'lucide-react';
 
 export default function TrustBySurfboard() {
   return (
@@ -20,7 +20,7 @@ export default function TrustBySurfboard() {
         {/* Founder Story Quote Card */}
         <div className="bg-slate-50 rounded-3xl p-8 sm:p-12 border border-slate-200/90 relative overflow-hidden mb-12 shadow-2xs">
           <div className="max-w-4xl mx-auto space-y-6">
-            <div className="text-4xl font-serif text-slate-300">“</div>
+            <Quote className="w-10 h-10 text-slate-300" />
             
             <p className="text-base sm:text-lg text-slate-800 leading-relaxed font-normal italic">
               Every single day, hundreds of Tier-2 and Tier-3 engineering students message me expressing the exact same despair: they attend college lectures for four years, memorize syntax, but freeze completely during technical assessments. 

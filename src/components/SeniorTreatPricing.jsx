@@ -97,7 +97,7 @@ export default function SeniorTreatPricing({ onOpenWaitlist }) {
                 {/* Icon & Badge */}
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-3xl">{tier.icon}</span>
-                  <span className={`text-[10px] font-mono px-2.5 py-0.5 rounded-full border ${tier.badgeStyle}`}>
+                  <span className={`text-[10px] font-bold tracking-wide uppercase px-2.5 py-0.5 rounded-full border ${tier.badgeStyle}`}>
                     {tier.badge}
                   </span>
                 </div>
@@ -109,7 +109,7 @@ export default function SeniorTreatPricing({ onOpenWaitlist }) {
                 
                 {/* Price */}
                 <div className="my-3 flex items-baseline gap-1">
-                  <span className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-mono">
+                  <span className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
                     {tier.price}
                   </span>
                   <span className="text-xs text-slate-500 font-medium">

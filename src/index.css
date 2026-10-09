@@ -1,13 +1,17 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  }
+@theme {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
 
+@layer base {
+  * {
+    font-family: var(--font-sans);
+  }
+  
   html {
     scroll-behavior: smooth;
+    font-family: var(--font-sans);
   }
 
   body {
@@ -18,6 +22,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  h1, h2, h3, h4, h5, h6, p, span, button, a, input, label {
+    font-family: var(--font-sans);
+  }
 }
 
 /* Subtle dot grid for clean engineering canvas */
@@ -26,16 +34,14 @@
   background-size: 20px 20px;
 }
 
-/* Authentic graph paper pattern for rough paper dry-run whiteboard */
-.bg-graph-paper {
-  background-color: #fdfdf9;
-  background-image: 
-    linear-gradient(to right, rgba(203, 213, 225, 0.4) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(203, 213, 225, 0.4) 1px, transparent 1px);
-  background-size: 20px 20px;
+/* Authentic dark blackboard / whiteboard canvas texture */
+.bg-board-pattern {
+  background-color: #0d1117;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-/* Subtle WhatsApp light chat background */
+/* Subtle messenger light chat background */
 .bg-whatsapp-pattern {
   background-color: #efeae2;
   background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);

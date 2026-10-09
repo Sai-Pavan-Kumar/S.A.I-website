@@ -39,7 +39,7 @@ export default function Footer({ onOpenWaitlist }) {
 
           {/* Column 1: Pedagogy */}
           <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider font-mono">
+            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">
               Mentorship
             </h4>
             <ul className="space-y-2">
@@ -52,7 +52,7 @@ export default function Footer({ onOpenWaitlist }) {
 
           {/* Column 2: Enterprise */}
           <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider font-mono">
+            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">
               Institutions
             </h4>
             <ul className="space-y-2">
@@ -71,7 +71,7 @@ export default function Footer({ onOpenWaitlist }) {
 
           {/* Column 3: The SurfBoard Studio */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider font-mono">
+            <h4 className="text-xs font-bold text-slate-950 uppercase tracking-wider">
               The SurfBoard
             </h4>
             <ul className="space-y-2">

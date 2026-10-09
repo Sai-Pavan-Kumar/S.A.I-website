@@ -38,7 +38,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
               <div>
                 <h4 className="text-xs sm:text-sm font-bold tracking-tight text-white flex items-center gap-2">
                   <span>Institutional Diagnostic Portal</span>
-                  <span className="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2 py-0.2 rounded-full font-mono">
+                  <span className="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2 py-0.2 rounded-full font-semibold">
                     Live Campus Demo
                   </span>
                 </h4>
@@ -77,7 +77,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                   <TrendingUp className="w-4 h-4 text-emerald-600" />
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-extrabold text-slate-950 font-mono">84.2%</span>
+                  <span className="text-3xl font-extrabold text-slate-950 tabular-nums">84.2%</span>
                   <span className="text-xs font-semibold text-emerald-600">+14.8% vs last month</span>
                 </div>
                 <p className="text-[11px] text-slate-500 mt-2">
@@ -92,7 +92,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                   <AlertTriangle className="w-4 h-4 text-amber-600" />
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-extrabold text-amber-950 font-mono">24 Students</span>
+                  <span className="text-3xl font-extrabold text-amber-950 tabular-nums">24 Students</span>
                   <span className="text-xs font-semibold text-amber-700">Identified for Mentorship</span>
                 </div>
                 <p className="text-[11px] text-amber-800 mt-2">
@@ -107,7 +107,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                   <CheckCircle2 className="w-4 h-4 text-blue-600" />
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-extrabold text-slate-950 font-mono">18,420</span>
+                  <span className="text-3xl font-extrabold text-slate-950 tabular-nums">18,420</span>
                   <span className="text-xs font-semibold text-blue-600">Deterministic Runs</span>
                 </div>
                 <p className="text-[11px] text-slate-500 mt-2">
@@ -123,7 +123,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
               {/* Left: Topic Mastery */}
               <div className="lg:col-span-7 p-6 rounded-2xl bg-white border border-slate-200 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                     Topic Mastery Distribution ({selectedDept})
                   </h4>
                   <span className="text-[11px] text-slate-500 font-medium">Real-Time Cohort Data</span>
@@ -141,7 +141,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                       <div className="flex justify-between text-xs">
                         <span className="font-semibold text-slate-800">{item.topic}</span>
                         <div className="flex items-center gap-2">
-                          <span className="text-slate-500 font-mono">{item.score}%</span>
+                          <span className="text-slate-700 font-bold tabular-nums">{item.score}%</span>
                           <span className="text-[10px] font-bold text-slate-600">({item.status})</span>
                         </div>
                       </div>
@@ -159,7 +159,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
               {/* Right: Target Corporate Matching */}
               <div className="lg:col-span-5 p-6 rounded-2xl bg-white border border-slate-200 space-y-4 flex flex-col justify-between">
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-4">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
                     Target Corporate Benchmark Matching
                   </h4>
                   <div className="space-y-3 text-xs">
@@ -168,7 +168,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                         <p className="font-bold text-slate-900">Amazon SDE-1 Cohort</p>
                         <p className="text-[11px] text-slate-500">Tier-1 Product Engineering</p>
                       </div>
-                      <span className="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 font-bold font-mono">
+                      <span className="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 font-bold tabular-nums">
                         38 Ready
                       </span>
                     </div>
@@ -178,7 +178,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                         <p className="font-bold text-slate-900">TCS Prime / Digital</p>
                         <p className="text-[11px] text-slate-500">Aptitude + Core DSA</p>
                       </div>
-                      <span className="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 font-bold font-mono">
+                      <span className="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 font-bold tabular-nums">
                         112 Ready
                       </span>
                     </div>
@@ -188,7 +188,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                         <p className="font-bold text-slate-900">Cognizant / Infosys</p>
                         <p className="text-[11px] text-slate-500">Mass Hiring Track</p>
                       </div>
-                      <span className="px-2.5 py-1 rounded-md bg-purple-100 text-purple-800 font-bold font-mono">
+                      <span className="px-2.5 py-1 rounded-md bg-purple-100 text-purple-800 font-bold tabular-nums">
                         184 Ready
                       </span>
                     </div>

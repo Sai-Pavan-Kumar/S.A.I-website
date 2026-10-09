@@ -72,7 +72,7 @@ export default function SocraticPipeline() {
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className={`text-xs font-mono font-bold ${
+                <span className={`text-[11px] font-bold tracking-wider uppercase ${
                   activeStage === idx ? 'text-indigo-600' : 'text-slate-400'
                 }`}>
                   STAGE {stage.number}
@@ -90,7 +90,7 @@ export default function SocraticPipeline() {
         <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm">
           
           <div className="pb-6 border-b border-slate-100">
-            <span className="text-xs font-mono font-bold text-indigo-600">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600">
               Stage {current.number}
             </span>
             <h3 className="text-2xl font-extrabold text-slate-950 mt-1">
