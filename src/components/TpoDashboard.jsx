@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { 
-  Building2, 
   AlertTriangle, 
   TrendingUp, 
   CheckCircle2, 
@@ -9,27 +8,21 @@ import {
   Download 
 } from 'lucide-react';
 
-export default function TpoDashboard() {
+export default function TpoDashboard({ onOpenWaitlist }) {
   const [selectedDept, setSelectedDept] = useState('CSE');
 
   return (
     <section id="tpo" className="py-20 md:py-28 bg-slate-50/70 border-b border-slate-200/80 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/80 border border-slate-300 text-xs font-semibold text-slate-800">
-            <Building2 className="w-3.5 h-3.5 text-slate-700" />
-            <span>Institutional Intelligence for Universities</span>
-            <span className="text-slate-400">•</span>
-            <span>by The SurfBoard</span>
-          </div>
+        {/* Header: Clean, No text pill, Focus on WHY */}
+        <div className="max-w-3xl mb-14 space-y-4">
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950">
-            Identify unplaceable students{' '}
+            Know which students are at risk{' '}
             <span className="text-blue-600">12 months before hiring season.</span>
           </h2>
           <p className="text-base text-slate-600 font-normal leading-relaxed">
-            Colleges spend lakhs on last-minute batch training. S.A.I.'s Predictive Placement Readiness Index (PRI) gives Training & Placement Officers (TPOs) real-time diagnostic visibility starting in 4th/5th semester.
+            Colleges spend lakhs on last-minute batch training in final year when it is too late to fix fundamental gaps. S.A.I. gives Training & Placement Officers (TPOs) diagnostic visibility in 4th and 5th semester, turning unplaceable students into top offers.
           </p>
         </div>
 
@@ -44,12 +37,12 @@ export default function TpoDashboard() {
               </div>
               <div>
                 <h4 className="text-xs sm:text-sm font-bold tracking-tight text-white flex items-center gap-2">
-                  <span>S.A.I. Institutional Intelligence Portal</span>
+                  <span>Institutional Diagnostic Portal</span>
                   <span className="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2 py-0.2 rounded-full font-mono">
-                    Pilot Campus View
+                    Live Campus Demo
                   </span>
                 </h4>
-                <p className="text-[10px] text-slate-400">Department of Computer Science & Engineering (Batch 2023-2027)</p>
+                <p className="text-[10px] text-slate-400">Department of Computer Science & Engineering</p>
               </div>
             </div>
 
@@ -80,7 +73,7 @@ export default function TpoDashboard() {
               {/* Card 1: PRI Score */}
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
                 <div className="flex items-center justify-between text-xs text-slate-500 font-semibold mb-2">
-                  <span>Cohort Placement Readiness (PRI)</span>
+                  <span>Placement Readiness Index (PRI)</span>
                   <TrendingUp className="w-4 h-4 text-emerald-600" />
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -88,7 +81,7 @@ export default function TpoDashboard() {
                   <span className="text-xs font-semibold text-emerald-600">+14.8% vs last month</span>
                 </div>
                 <p className="text-[11px] text-slate-500 mt-2">
-                  Benchmark: Tier-1 SDE (Amazon, Swiggy) qualification threshold is 80%.
+                  Tier-1 SDE qualification threshold: 80%
                 </p>
               </div>
 
@@ -100,40 +93,40 @@ export default function TpoDashboard() {
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-extrabold text-amber-950 font-mono">24 Students</span>
-                  <span className="text-xs font-semibold text-amber-700">High Attrition Risk</span>
+                  <span className="text-xs font-semibold text-amber-700">Identified for Mentorship</span>
                 </div>
                 <p className="text-[11px] text-amber-800 mt-2">
-                  Flagged 12 months ahead: weak in Graph Algorithms & Dynamic Programming.
+                  Flagged 12 months ahead: weak in Graph Algorithms & Problem Solving.
                 </p>
               </div>
 
-              {/* Card 3: Deterministic Sandboxes Passed */}
+              {/* Card 3: Real Coding Assessments Passed */}
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
                 <div className="flex items-center justify-between text-xs text-slate-500 font-semibold mb-2">
-                  <span>Compiler Test Suites Executed</span>
+                  <span>Sandboxed Assessments Verified</span>
                   <CheckCircle2 className="w-4 h-4 text-blue-600" />
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-extrabold text-slate-950 font-mono">18,420</span>
-                  <span className="text-xs font-semibold text-blue-600">Zero AI Guesswork</span>
+                  <span className="text-xs font-semibold text-blue-600">Deterministic Runs</span>
                 </div>
                 <p className="text-[11px] text-slate-500 mt-2">
-                  100% verified via isolated WebAssembly and Pyodide test sandboxes.
+                  Evaluated across exhaustive hidden test suites with strict time bounds.
                 </p>
               </div>
 
             </div>
 
-            {/* Middle Section: Skill Deficiency Radar & Target Companies */}
+            {/* Middle Section: Topic Mastery Distribution & Target Benchmarks */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               
-              {/* Left: Skill Deficiency Radar */}
+              {/* Left: Topic Mastery */}
               <div className="lg:col-span-7 p-6 rounded-2xl bg-white border border-slate-200 space-y-4">
                 <div className="flex items-center justify-between">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">
-                    Topic Mastery Distribution ({selectedDept} 2026 Cohort)
+                    Topic Mastery Distribution ({selectedDept})
                   </h4>
-                  <span className="text-[11px] text-slate-500 font-medium">Real-Time Data</span>
+                  <span className="text-[11px] text-slate-500 font-medium">Real-Time Cohort Data</span>
                 </div>
 
                 <div className="space-y-3">
@@ -163,7 +156,7 @@ export default function TpoDashboard() {
                 </div>
               </div>
 
-              {/* Right: Target Company Matching Engine */}
+              {/* Right: Target Corporate Matching */}
               <div className="lg:col-span-5 p-6 rounded-2xl bg-white border border-slate-200 space-y-4 flex flex-col justify-between">
                 <div>
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-4">
@@ -173,7 +166,7 @@ export default function TpoDashboard() {
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                       <div>
                         <p className="font-bold text-slate-900">Amazon SDE-1 Cohort</p>
-                        <p className="text-[11px] text-slate-500">LeetCode Medium / Hard Bar</p>
+                        <p className="text-[11px] text-slate-500">Tier-1 Product Engineering</p>
                       </div>
                       <span className="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 font-bold font-mono">
                         38 Ready
@@ -193,7 +186,7 @@ export default function TpoDashboard() {
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                       <div>
                         <p className="font-bold text-slate-900">Cognizant / Infosys</p>
-                        <p className="text-[11px] text-slate-500">Volume Placement Track</p>
+                        <p className="text-[11px] text-slate-500">Mass Hiring Track</p>
                       </div>
                       <span className="px-2.5 py-1 rounded-md bg-purple-100 text-purple-800 font-bold font-mono">
                         184 Ready
@@ -207,9 +200,12 @@ export default function TpoDashboard() {
                     <FileCheck2 className="w-4 h-4 text-slate-400" />
                     NAAC / NBA Format Ready
                   </span>
-                  <button className="text-blue-600 font-bold hover:underline flex items-center gap-1 cursor-pointer">
+                  <button 
+                    onClick={() => onOpenWaitlist('Institutional PDF Sample Report')}
+                    className="text-blue-600 font-bold hover:underline flex items-center gap-1 cursor-pointer"
+                  >
                     <Download className="w-3.5 h-3.5" />
-                    Export PDF
+                    Request Sample Report
                   </button>
                 </div>
               </div>
@@ -220,20 +216,20 @@ export default function TpoDashboard() {
             <div className="p-6 rounded-2xl bg-slate-950 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="space-y-1 text-center sm:text-left">
                 <h4 className="text-sm font-bold text-white">
-                  Bring S.A.I. Institutional Intelligence to Your College
+                  Bring S.A.I. Institutional Intelligence to Your Campus
                 </h4>
                 <p className="text-xs text-slate-400">
                   Annual campus license starting at ₹300/student/year. Fully compliant with AICTE & NEP 2020 mandates.
                 </p>
               </div>
 
-              <a
-                href="#waitlist"
+              <button
+                onClick={() => onOpenWaitlist('Institutional Campus Pilot')}
                 className="px-5 py-2.5 rounded-xl bg-white text-slate-950 hover:bg-slate-100 text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer shadow-xs"
               >
                 <span>Schedule Campus Pilot</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              </button>
             </div>
 
           </div>

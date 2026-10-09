@@ -8,49 +8,52 @@ import SeniorTreatPricing from './components/SeniorTreatPricing';
 import TpoDashboard from './components/TpoDashboard';
 import TrustBySurfboard from './components/TrustBySurfboard';
 import Footer from './components/Footer';
+import WaitlistModal from './components/WaitlistModal';
 
 export default function App() {
-  const [activeMode, setActiveMode] = useState('student');
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
+  const [selectedTier, setSelectedTier] = useState('General Alpha');
 
-  const handleModeSwitch = (mode) => {
-    setActiveMode(mode);
-    if (mode === 'institutional') {
-      const el = document.getElementById('tpo');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      const el = document.getElementById('council');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleOpenWaitlist = (tier = 'General Alpha') => {
+    setSelectedTier(tier);
+    setWaitlistOpen(true);
   };
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-slate-900 selection:text-white font-sans antialiased">
-      {/* Global Navigation */}
-      <Navbar activeMode={activeMode} setActiveMode={handleModeSwitch} />
+      {/* Global Navigation with Apple spacing & transparent logo */}
+      <Navbar onOpenWaitlist={handleOpenWaitlist} />
 
       {/* Hero Section */}
-      <Hero activeMode={activeMode} />
+      <Hero onOpenWaitlist={handleOpenWaitlist} />
 
-      {/* Section 1: The Placement Council (Brother Personas) */}
-      <CouncilSection />
+      {/* The Placement Squad (4 Brother Personas) */}
+      <CouncilSection onOpenWaitlist={handleOpenWaitlist} />
 
-      {/* Section 2: Visual Pedagogy (Rough Paper Whiteboard Trace) */}
+      {/* Visual Memory Tracing on Rough Paper */}
       <RoughPaperEngine />
 
-      {/* Section 3: 5-Stage Socratic Gating Architecture */}
+      {/* 5-Stage Methodology: Why Students Fail vs S.A.I. Transformation */}
       <SocraticPipeline />
 
-      {/* Section 4: The "Senior Treat" Cultural Monetization Model */}
-      <SeniorTreatPricing />
+      {/* The "Senior Treat" Cultural Monetization Model */}
+      <SeniorTreatPricing onOpenWaitlist={handleOpenWaitlist} />
 
-      {/* Section 5: Institutional TPO Intelligence (B2B S.A.I.) */}
-      <TpoDashboard />
+      {/* Institutional TPO Intelligence */}
+      <TpoDashboard onOpenWaitlist={handleOpenWaitlist} />
 
-      {/* Section 6: Founder Story & Unfair Moats by The SurfBoard */}
+      {/* Founder Story & Community Trust */}
       <TrustBySurfboard />
 
       {/* Global Footer */}
-      <Footer />
+      <Footer onOpenWaitlist={handleOpenWaitlist} />
+
+      {/* Interactive Priority Waitlist Modal */}
+      <WaitlistModal
+        isOpen={waitlistOpen}
+        onClose={() => setWaitlistOpen(false)}
+        selectedTier={selectedTier}
+      />
     </div>
   );
 }

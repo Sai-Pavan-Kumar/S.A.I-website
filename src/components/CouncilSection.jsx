@@ -1,75 +1,64 @@
 import React, { useState } from 'react';
-import { 
-  CheckCircle2, 
-  Sparkles 
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
-export default function CouncilSection() {
+export default function CouncilSection({ onOpenWaitlist }) {
   const [activeBrother, setActiveBrother] = useState('sai');
 
   const brothers = [
     {
       id: 'sai',
       name: 'Sai Anna',
-      role: 'Lead Brother & Orchestrator',
-      tier: '100% FREE TIER',
-      tagline: 'Conceptual intuition, tough-love accountability, and 24/7 syllabus guidance.',
+      role: 'Lead Brother & Conceptual Guide',
+      tier: 'FREE TIER',
+      tagline: 'When you are confused or losing confidence, he breaks the problem down with visceral real-world intuition.',
       avatarColor: 'from-blue-600 to-indigo-600',
       badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      focus: 'Foundations • Two Pointers • Trees • Daily Habits',
+      whyNeeded: 'You stop memorizing code. You understand the foundational physical intuition before touching an editor.',
       dialogue: {
-        speaker: 'Sai Anna',
-        text: 'Direct code jump cheyaku ra. Two Pointers ante bridge walk analogy gurthundha? First L=0 and R=N-1 tho boundaries fix cheddam. Logic clear ayyaka compiler open chey.',
-        action: 'Curates intuition & dispatches specialized seniors',
-        audioTime: '0:38 voice note'
+        text: 'Direct code jump cheyaku ra. Two Pointers ante bridge walk analogy gurthundha? First boundaries fix cheddam. Logic clear ayyaka compiler open chey.',
+        audioTime: 'Voice note active'
       }
     },
     {
       id: 'ravi',
       name: 'Ravi Anna',
-      role: 'Placement Strategy & Roadmaps',
+      role: 'Placement Strategy & Accountability',
       tier: 'PRO SENIOR',
-      tagline: 'Company hiring reverse-engineering, streak audits, and 1-click revision PDF cheat sheets.',
+      tagline: 'Reverse-engineers your target company hiring bar and gives you tough-love scoldings when you break streaks.',
       avatarColor: 'from-amber-500 to-orange-600',
       badgeColor: 'bg-amber-50 text-amber-700 border-amber-200',
-      focus: 'Amazon SDE-1 • TCS Prime • 12-Week Roadmaps • Daily Streaks',
+      whyNeeded: 'No more generic studying. You follow a battle-tested timeline tailored to Amazon, TCS Prime, or Swiggy.',
       dialogue: {
-        speaker: 'Ravi Anna',
-        text: 'Nee target Amazon aithe ee week Arrays & Sliding Window complete cheyali ra. 2 days streak skip chesav — ila chesthe hiring drive lo filter aipothav. Idho 1-click 12-Week roadmap PDF theesko.',
-        action: 'Generates client-side PDF revision sheets & streak audits',
-        audioTime: '1-Click PDF Notes Available'
+        text: 'Nee target Amazon aithe ee week Arrays complete cheyali ra. 2 days streak skip chesav — ila chesthe hiring drive lo filter aipothav. Idho 12-Week roadmap PDF theesko.',
+        audioTime: 'Roadmap & Streak Audit'
       }
     },
     {
       id: 'kiran',
       name: 'Kiran Anna',
-      role: 'Core DSA & Hard Sandboxes',
+      role: 'Hard DSA & Mock Coding Rounds',
       tier: 'PRO SENIOR',
-      tagline: 'Live rough-paper whiteboard mock rounds, edge-case deep-dives, and WebAssembly execution.',
+      tagline: 'Challenges your assumptions with brutal edge cases until your algorithmic logic is impossible to break.',
       avatarColor: 'from-emerald-500 to-teal-700',
       badgeColor: 'bg-sky-50 text-sky-700 border-sky-200',
-      focus: 'Hard DSA • LeetCode 75 • Edge-Case Hunting • WebAssembly Sandbox',
+      whyNeeded: 'You develop the composure to handle unknown tricky problems in live 45-minute technical rounds.',
       dialogue: {
-        speaker: 'Kiran Anna',
         text: 'Array lo duplicate integers or negative sum unte nee condition break avuthundha? Edge case verify chey: [-4, -1, 0, 3, 10], Target=0. Break cheyyi, appudu sandbox execute cheddam.',
-        action: 'Deterministic compiler sandbox & edge-case discovery',
-        audioTime: 'Real WebAssembly Testing'
+        audioTime: 'Live Mock Round'
       }
     },
     {
       id: 'venkat',
       name: 'Venkat Anna',
-      role: 'Architecture & System Design',
+      role: 'Architecture & Resume Audits',
       tier: 'PRO SENIOR',
-      tagline: 'Resume-ready full-stack projects, real API architectures, and live GitHub repository audits.',
+      tagline: 'Eliminates toy tutorial projects from your resume and guides production-grade system architectures.',
       avatarColor: 'from-purple-600 to-indigo-800',
       badgeColor: 'bg-purple-50 text-purple-700 border-purple-200',
-      focus: 'System Design • Real APIs • Full-Stack Portfolios • GitHub Audits',
+      whyNeeded: 'Your GitHub and resume command respect from hiring managers rather than getting filtered at round 1.',
       dialogue: {
-        speaker: 'Venkat Anna',
-        text: 'Resume lo "To-Do App" pettukoni Amazon interview ki velthe first round lone thosestharu. Real-time WebRTC audio architecture or Distributed Cache project build cheddam. GitHub commit history audit chestha chudu.',
-        action: 'Live code review & production architecture guidance',
-        audioTime: 'Production System Design'
+        text: 'Resume lo "To-Do App" pettukoni interview ki velthe first round lone filter chestharu. Distributed cache or real-time WebRTC architecture build cheddam. Commits audit chestha chudu.',
+        audioTime: 'GitHub Portfolio Audit'
       }
     }
   ];
@@ -78,21 +67,16 @@ export default function CouncilSection() {
 
   return (
     <section id="council" className="py-20 md:py-28 bg-slate-50/70 border-b border-slate-200/80 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-blue-700">
-            <span>The Multi-Agent Placement Council</span>
-            <span className="text-blue-300">•</span>
-            <span>by The SurfBoard</span>
-          </div>
+        {/* Section Header: Bold and clean, no pills */}
+        <div className="max-w-3xl mb-14 space-y-4">
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950">
-            One lonely chatbot can't get you hired.{' '}
-            <span className="text-blue-600">A squad of elder brothers will.</span>
+            A single chatbot gets confused.{' '}
+            <span className="text-blue-600">A squad of elder brothers gets you hired.</span>
           </h2>
           <p className="text-base text-slate-600 font-normal leading-relaxed">
-            Instead of a single overwhelming AI trying to answer everything, a smart intent router dispatches your questions to specialized seniors who understand student psychology and corporate hiring bars.
+            Different interview rounds require different preparation mindsets. S.A.I. dispatches your doubts to specialized seniors who know what recruiters look for at each stage.
           </p>
         </div>
 
@@ -122,15 +106,12 @@ export default function CouncilSection() {
         {/* Active Brother Interactive Showcase Box */}
         <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          {/* Left detail card */}
-          <div className="lg:col-span-5 space-y-5">
+          {/* Left detail card: WHY you need this senior */}
+          <div className="lg:col-span-5 space-y-6">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-2">
-                <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${current.badgeColor}`}>
-                  {current.tier}
-                </span>
-                <span className="text-xs font-mono text-slate-400">Persona Profile</span>
-              </div>
+              <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${current.badgeColor}`}>
+                {current.tier}
+              </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950">
                 {current.name}
               </h3>
@@ -142,25 +123,27 @@ export default function CouncilSection() {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase block">
-                Primary Specialty
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+              <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase block font-mono">
+                Why You Need Him
               </span>
-              <p className="text-xs font-semibold text-slate-900">
-                {current.focus}
+              <p className="text-xs font-semibold text-slate-900 leading-relaxed">
+                {current.whyNeeded}
               </p>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>Grounded in The SurfBoard's 6-year pedagogical research</span>
-            </div>
+            <button
+              onClick={() => onOpenWaitlist(`${current.name} Access`)}
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+            >
+              <span>Connect with {current.name}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
 
           {/* Right WhatsApp interaction preview */}
-          <div className="lg:col-span-7 bg-[#efeae2] rounded-2xl p-4 sm:p-6 border border-slate-200 relative overflow-hidden bg-whatsapp-pattern">
+          <div className="lg:col-span-7 bg-[#efeae2] rounded-2xl p-5 sm:p-6 border border-slate-200 relative overflow-hidden bg-whatsapp-pattern">
             
-            {/* Header banner */}
             <div className="flex items-center justify-between pb-3 mb-4 border-b border-black/5">
               <div className="flex items-center gap-2.5">
                 <div className={`w-9 h-9 rounded-full bg-gradient-to-tr ${current.avatarColor} text-white flex items-center justify-center font-bold text-xs shadow-xs`}>
@@ -179,30 +162,22 @@ export default function CouncilSection() {
               </span>
             </div>
 
-            {/* Bubble dialogue */}
             <div className="space-y-3">
               <div className="bg-white p-4 rounded-xl rounded-tl-none border border-slate-200/80 shadow-2xs">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[11px] font-bold text-slate-900">{current.name}</span>
-                  <span className="text-[9px] text-slate-400 font-mono">Just now</span>
-                </div>
+                <span className="text-[11px] font-bold text-slate-900 block mb-1">{current.name}</span>
                 <p className="text-xs text-slate-800 leading-relaxed font-normal">
                   "{current.dialogue.text}"
                 </p>
-                <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                  <span className="text-blue-600 font-semibold flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    {current.dialogue.action}
-                  </span>
-                  <span className="text-slate-400">WhatsApp Verified</span>
+                <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                  <span>Socratic Guidance</span>
+                  <span>WhatsApp Verified</span>
                 </div>
               </div>
 
-              {/* Student Response Mockup */}
               <div className="flex justify-end">
                 <div className="bg-[#d9fdd3] text-slate-900 p-2.5 rounded-xl rounded-tr-none max-w-[80%] shadow-2xs border border-emerald-100 text-xs">
                   <p className="text-[11.5px] leading-snug">
-                    Understood Anna! Let's verify with edge case [-4, -1, 0, 3, 10] before writing code.
+                    Understood Anna! Let's test the negative target edge case before writing code.
                   </p>
                   <span className="text-[9px] text-slate-500 block text-right mt-1">11:45 AM ✓✓</span>
                 </div>

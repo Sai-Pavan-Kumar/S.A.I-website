@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { 
   RotateCcw, 
-  CheckCircle2, 
   ChevronRight, 
   ChevronLeft 
 } from 'lucide-react';
@@ -19,7 +18,7 @@ export default function RoughPaperEngine() {
       sum: 17,
       condition: '17 > 9 (Too Large)',
       action: 'Decrement Right Pointer (R--)',
-      note: 'Left=2 + Right=15 = 17. Target 9 kante chala peddadi. Array already sorted kabatti, largest value ni drop chesi R pointer ni venakki laagali.',
+      note: 'Left=2 + Right=15 = 17. Target 9 kante peddadi. Array already sorted kabatti, largest value ni drop chesi R pointer ni venakki laagali.',
       status: 'evaluating'
     },
     {
@@ -39,7 +38,7 @@ export default function RoughPaperEngine() {
       sum: 9,
       condition: '9 == 9 (Target Matched!)',
       action: 'Target Pair Found: Return [0, 1]',
-      note: 'BINGO! Left=2 + Right=7 = 9. Exactly target match aindi. O(N) single pass lo problem solve aindi. Zero nested loops!',
+      note: 'Target match aindi! Left=2 + Right=7 = 9. Single pass lo problem solve aindi — zero nested loops.',
       status: 'matched'
     }
   ];
@@ -60,42 +59,33 @@ export default function RoughPaperEngine() {
 
   return (
     <section id="rough-paper" className="py-20 md:py-28 bg-white border-b border-slate-200/80 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-800">
-            <span>Visual Pedagogy Engine</span>
-            <span className="text-emerald-300">•</span>
-            <span>by The SurfBoard</span>
-          </div>
+        {/* Header: Clean, No text pill, Focus on WHY */}
+        <div className="max-w-3xl mb-14 space-y-4">
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950">
-            Why burn ₹300 on video AI?{' '}
-            <span className="text-emerald-700">All you need is rough paper & a pen.</span>
+            Interviewers test how you think,{' '}
+            <span className="text-emerald-700">not how fast you type.</span>
           </h2>
           <p className="text-base text-slate-600 font-normal leading-relaxed">
-            AI avatar talking-head videos cost $0.30/minute and distract students. In real engineering mentorship, Sai Anna pulls out a sheet of white paper and walks through pointers with a pen. S.A.I. replicates this locally with &lt;10ms latency.
+            In real campus interviews, you are handed a blank sheet of paper and asked to dry-run your memory pointers. 
+            Watching video tutorials puts you in passive spectator mode. S.A.I. forces you to visualize data movements step-by-step so you never freeze on the whiteboard.
           </p>
         </div>
 
         {/* The Whiteboard Canvas Box */}
-        <div className="bg-slate-900 rounded-3xl p-2 sm:p-4 shadow-xl border border-slate-800">
+        <div className="bg-slate-900 rounded-3xl p-3 sm:p-5 shadow-xl border border-slate-800">
           
-          {/* Top Bar / Diagnostics */}
-          <div className="px-4 py-3 bg-slate-950 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs mb-3 border border-slate-800">
+          {/* Top Bar: Clean, No compute cost or developer bragging */}
+          <div className="px-5 py-3 bg-slate-950 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs mb-3 border border-slate-800">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="font-mono text-slate-300 font-semibold">RoughPaper Canvas v2.4</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              <span className="font-mono text-slate-300 font-semibold">Visual Whiteboard Trace</span>
               <span className="text-slate-600">|</span>
-              <span className="text-slate-400">Two Pointers Dynamic Memory Walk</span>
+              <span className="text-slate-400">Two Pointers Problem Walk</span>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono text-[11px] font-bold">
-                Compute Cost: ₹0.00 (Client-side SVG)
-              </span>
-              <span className="text-slate-400 font-mono text-[11px]">
-                Latency: 6ms
-              </span>
+            <div className="font-mono text-slate-400 text-[11px]">
+              Step {currentStep + 1} of {steps.length}
             </div>
           </div>
 
@@ -106,48 +96,43 @@ export default function RoughPaperEngine() {
             <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-200">
               <div>
                 <span className="text-[11px] font-mono tracking-wider font-bold text-slate-400 uppercase">
-                  Interactive Problem Trace
+                  Problem Walkthrough
                 </span>
                 <h4 className="text-lg font-extrabold text-slate-900 font-mono">
                   Two Sum II — nums = [2, 7, 11, 15], Target = 9
                 </h4>
               </div>
 
-              {/* Step indicator */}
+              {/* Controls */}
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono font-bold text-slate-500">
-                  Step {currentStep + 1} of {steps.length}
-                </span>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={handlePrev}
-                    disabled={currentStep === 0}
-                    className="p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 disabled:opacity-40 transition-colors cursor-pointer"
-                    aria-label="Previous step"
-                  >
-                    <ChevronLeft className="w-4 h-4 text-slate-700" />
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    disabled={currentStep === steps.length - 1}
-                    className="p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 disabled:opacity-40 transition-colors cursor-pointer"
-                    aria-label="Next step"
-                  >
-                    <ChevronRight className="w-4 h-4 text-slate-700" />
-                  </button>
-                  <button
-                    onClick={() => setCurrentStep(0)}
-                    className="p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition-colors cursor-pointer"
-                    title="Reset Trace"
-                  >
-                    <RotateCcw className="w-4 h-4 text-slate-700" />
-                  </button>
-                </div>
+                <button
+                  onClick={handlePrev}
+                  disabled={currentStep === 0}
+                  className="p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 disabled:opacity-40 transition-colors cursor-pointer"
+                  aria-label="Previous step"
+                >
+                  <ChevronLeft className="w-4 h-4 text-slate-700" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  disabled={currentStep === steps.length - 1}
+                  className="p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 disabled:opacity-40 transition-colors cursor-pointer"
+                  aria-label="Next step"
+                >
+                  <ChevronRight className="w-4 h-4 text-slate-700" />
+                </button>
+                <button
+                  onClick={() => setCurrentStep(0)}
+                  className="p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition-colors cursor-pointer"
+                  title="Reset Trace"
+                >
+                  <RotateCcw className="w-4 h-4 text-slate-700" />
+                </button>
               </div>
             </div>
 
             {/* Array Pointers Visualizer */}
-            <div className="py-12 my-auto">
+            <div className="py-10 my-auto">
               <div className="max-w-2xl mx-auto">
                 
                 {/* Pointer indicator Row Top */}
@@ -155,7 +140,7 @@ export default function RoughPaperEngine() {
                   {arrayData.map((_, idx) => (
                     <div key={`top-${idx}`} className="h-7 flex flex-col items-center justify-end">
                       {idx === current.leftIdx && (
-                        <div className="text-blue-600 flex flex-col items-center animate-bounce">
+                        <div className="text-blue-600 flex flex-col items-center">
                           <span className="text-[11px] font-extrabold">L (Left)</span>
                           <span className="text-xs">↓</span>
                         </div>
@@ -210,7 +195,7 @@ export default function RoughPaperEngine() {
                   {arrayData.map((_, idx) => (
                     <div key={`bottom-${idx}`} className="h-7 flex flex-col items-center justify-start">
                       {idx === current.rightIdx && (
-                        <div className="text-amber-600 flex flex-col items-center animate-bounce">
+                        <div className="text-amber-600 flex flex-col items-center">
                           <span className="text-xs">↑</span>
                           <span className="text-[11px] font-extrabold">R (Right)</span>
                         </div>
@@ -243,22 +228,6 @@ export default function RoughPaperEngine() {
               </p>
             </div>
 
-          </div>
-
-          {/* Bottom comparison footer */}
-          <div className="p-4 bg-slate-950 rounded-2xl mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-400 text-center">
-            <div className="flex items-center justify-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Zero Talking-Head Cognitive Distraction</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Works on low-speed 4G college networks</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Free for students, ₹0 server cost for studio</span>
-            </div>
           </div>
 
         </div>
