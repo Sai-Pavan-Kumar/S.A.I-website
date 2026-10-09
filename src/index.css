@@ -5,18 +5,14 @@
   --font-board: 'Playpen Sans', cursive, sans-serif;
 }
 
-.font-board {
+.font-board,
+.font-board * {
   font-family: 'Playpen Sans', cursive, sans-serif !important;
 }
 
 @layer base {
-  * {
-    font-family: var(--font-sans);
-  }
-  
   html {
     scroll-behavior: smooth;
-    font-family: var(--font-sans);
   }
 
   body {
@@ -26,10 +22,6 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1, h2, h3, h4, h5, h6, p, span, button, a, input, label {
-    font-family: var(--font-sans);
   }
 }
 
