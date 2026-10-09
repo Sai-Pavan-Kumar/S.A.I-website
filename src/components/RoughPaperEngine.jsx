@@ -9,7 +9,6 @@ import {
   PhoneOff, 
   MoreVertical,
   Users,
-  Sparkles,
   Volume2
 } from 'lucide-react';
 
@@ -298,8 +297,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
         
         {/* Section Header */}
         <div className="max-w-3xl mb-10 space-y-4 font-sans">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
             <span>1-on-1 Senior Mentorship Canvas</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950">
