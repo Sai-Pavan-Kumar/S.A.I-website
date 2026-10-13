@@ -20,15 +20,17 @@ export async function onRequestPost({ request, env }) {
       submittedAt: new Date().toISOString()
     };
 
+    const waitlistStore = env?.WAITLIST_KV;
+
     // Without the KV binding the signup would vanish silently, so refuse instead of faking success.
-    if (!env?.WAITLIST_KV) {
+    if (!waitlistStore) {
       return new Response(JSON.stringify({ error: 'Waitlist storage is not configured' }), {
         status: 503,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    await env.WAITLIST_KV.put(`waitlist:${email}`, JSON.stringify(entry));
+    await waitlistStore.put(`waitlist:${email}`, JSON.stringify(entry));
 
     return new Response(
       JSON.stringify({
