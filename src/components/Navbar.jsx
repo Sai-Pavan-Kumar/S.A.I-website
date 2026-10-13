@@ -37,7 +37,7 @@ export default function Navbar({ onOpenWaitlist }) {
         {/* Right Action: Clean Apple-grade Button */}
         <div className="hidden md:flex items-center gap-4">
           <button 
-            onClick={() => onOpenWaitlist('General Alpha')}
+            onClick={() => onOpenWaitlist('S.A.I. Alpha')}
             className="px-5 py-2.5 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold tracking-wide transition-all shadow-xs flex items-center gap-2 cursor-pointer"
           >
             <span>Join Waitlist</span>
@@ -48,7 +48,7 @@ export default function Navbar({ onOpenWaitlist }) {
         {/* Mobile Hamburger */}
         <div className="flex md:hidden items-center gap-2">
           <button 
-            onClick={() => onOpenWaitlist('Mobile Alpha')}
+            onClick={() => onOpenWaitlist('S.A.I. Alpha')}
             className="px-3.5 py-1.5 rounded-full bg-slate-950 text-white text-xs font-semibold cursor-pointer"
           >
             Join

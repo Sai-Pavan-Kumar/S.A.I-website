@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, CheckCircle2, ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
 
-export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General Waitlist' }) {
+export default function WaitlistModal({ isOpen, onClose, selectedTier = 'S.A.I. Alpha' }) {
   const [email, setEmail] = useState('');
   const [college, setCollege] = useState('');
   const [loading, setLoading] = useState(false);
@@ -145,8 +145,8 @@ export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General
             </h3>
 
             <p className="text-xs text-slate-600 leading-relaxed max-w-xs mx-auto">
-              We've logged your priority request for <strong className="text-slate-900">{selectedTier}</strong>. 
-              You will receive your private invitation link and onboarding credentials directly via email.
+              We've saved your spot for <strong className="text-slate-900">{selectedTier}</strong>. 
+              We'll email you when your alpha access opens.
             </p>
 
             <button

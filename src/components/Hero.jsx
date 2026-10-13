@@ -251,7 +251,7 @@ export default function Hero({ onOpenWaitlist }) {
                     Ask Sai Anna anything...
                   </div>
                   <button 
-                    onClick={() => onOpenWaitlist('Hero Chat Interaction')}
+                    onClick={() => onOpenWaitlist('Chat with Sai Anna')}
                     className="w-7 h-7 rounded-full bg-[#075e54] text-white flex items-center justify-center cursor-pointer"
                   >
                     <ArrowRight className="w-3.5 h-3.5" />

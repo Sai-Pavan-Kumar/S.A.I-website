@@ -201,7 +201,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                     NAAC / NBA Format Ready
                   </span>
                   <button 
-                    onClick={() => onOpenWaitlist('Institutional PDF Sample Report')}
+                    onClick={() => onOpenWaitlist('Sample College Report')}
                     className="text-blue-600 font-bold hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <Download className="w-3.5 h-3.5" />

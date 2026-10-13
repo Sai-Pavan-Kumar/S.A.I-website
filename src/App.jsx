@@ -12,9 +12,9 @@ import WaitlistModal from './components/WaitlistModal';
 
 export default function App() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
-  const [selectedTier, setSelectedTier] = useState('General Alpha');
+  const [selectedTier, setSelectedTier] = useState('S.A.I. Alpha');
 
-  const handleOpenWaitlist = (tier = 'General Alpha') => {
+  const handleOpenWaitlist = (tier = 'S.A.I. Alpha') => {
     setSelectedTier(tier);
     setWaitlistOpen(true);
   };
