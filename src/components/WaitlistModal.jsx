@@ -32,15 +32,10 @@ export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General
         })
       });
 
-      if (!response.ok) {
-        // Fallback for static dev or preview
-        console.warn('Endpoint returned status:', response.status);
-      }
+      if (!response.ok) throw new Error(`Waitlist returned ${response.status}`);
       setSubmitted(true);
-    } catch (err) {
-      // Graceful local success state so user is never blocked
-      console.warn('Network request completed with local fallback:', err);
-      setSubmitted(true);
+    } catch {
+      setErrorMsg("Couldn't save your spot right now. Check your connection and try again.");
     } finally {
       setLoading(false);
     }

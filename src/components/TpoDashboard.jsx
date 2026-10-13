@@ -39,7 +39,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                 <h4 className="text-xs sm:text-sm font-bold tracking-tight text-white flex items-center gap-2">
                   <span>Institutional Diagnostic Portal</span>
                   <span className="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2 py-0.2 rounded-full font-semibold">
-                    Live Campus Demo
+                    Sample Dashboard
                   </span>
                 </h4>
                 <p className="text-[10px] text-slate-400">Department of Computer Science & Engineering</p>
@@ -126,7 +126,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                     Topic Mastery Distribution ({selectedDept})
                   </h4>
-                  <span className="text-[11px] text-slate-500 font-medium">Real-Time Cohort Data</span>
+                  <span className="text-[11px] text-slate-500 font-medium">Illustrative Data</span>
                 </div>
 
                 <div className="space-y-3">
@@ -219,7 +219,7 @@ export default function TpoDashboard({ onOpenWaitlist }) {
                   Bring S.A.I. Institutional Intelligence to Your Campus
                 </h4>
                 <p className="text-xs text-slate-400">
-                  Annual campus license starting at ₹300/student/year. Fully compliant with AICTE & NEP 2020 mandates.
+                  Annual campus license starting at ₹300/student/year. Aligned with AICTE & NEP 2020 skilling goals.
                 </p>
               </div>
 

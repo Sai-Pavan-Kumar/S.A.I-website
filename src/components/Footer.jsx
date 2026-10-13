@@ -82,7 +82,7 @@ export default function Footer({ onOpenWaitlist }) {
                 </a>
               </li>
               <li>
-                <span className="text-slate-500">109K+ Engineer Community</span>
+                <span className="text-slate-500">105K+ Follower Community</span>
               </li>
               <li>
                 <span className="text-slate-500">Single Sign-On (auth.thesurfboard.in)</span>
@@ -97,7 +97,7 @@ export default function Footer({ onOpenWaitlist }) {
           <p>© {currentYear} S.A.I. · Conceived and engineered by The SurfBoard. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <span>Student Privacy First</span>
-            <span>Zero Data Leakage</span>
+            <span>No Spam, Ever</span>
           </div>
         </div>
 

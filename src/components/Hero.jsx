@@ -13,6 +13,7 @@ export default function Hero({ onOpenWaitlist }) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -20,15 +21,17 @@ export default function Hero({ onOpenWaitlist }) {
     if (!email.trim() || !email.includes('@')) return;
 
     setLoading(true);
+    setErrorMsg('');
     try {
-      await fetch('/api/waitlist', {
+      const response = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, tier: 'Hero Waitlist', role: 'student' })
       });
+      if (!response.ok) throw new Error(`Waitlist returned ${response.status}`);
       setSubmitted(true);
     } catch {
-      setSubmitted(true);
+      setErrorMsg("Couldn't save your spot right now. Check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -93,6 +96,10 @@ export default function Hero({ onOpenWaitlist }) {
                 </div>
               )}
 
+              {errorMsg && (
+                <p className="text-xs text-rose-600 font-medium mt-2">{errorMsg}</p>
+              )}
+
               <div className="flex items-center gap-3 mt-3 text-[11px] text-slate-500">
                 <span className="flex items-center gap-1 font-medium">
                   <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
@@ -108,8 +115,8 @@ export default function Hero({ onOpenWaitlist }) {
             {/* Micro Stats */}
             <div className="pt-6 border-t border-slate-100 flex items-center gap-10">
               <div>
-                <p className="text-2xl font-extrabold text-slate-950">109K+</p>
-                <p className="text-xs text-slate-500 font-medium mt-0.5">Community Engineers</p>
+                <p className="text-2xl font-extrabold text-slate-950">105K+</p>
+                <p className="text-xs text-slate-500 font-medium mt-0.5">Community Followers</p>
               </div>
               <div>
                 <p className="text-2xl font-extrabold text-slate-950">6 Years</p>

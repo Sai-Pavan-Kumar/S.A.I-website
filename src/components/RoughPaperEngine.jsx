@@ -83,12 +83,12 @@ const SCRIPT_STEPS = [
     id: 'db_crash_x',
     type: 'shape',
     duration: 400,
-    dialogue: 'Hard disk physical spin limit ~1,000 IOPS mathrame ra.'
+    dialogue: 'Disk ki second ki enni reads cheyagaladho oka limit untundhi ra.'
   },
   {
     id: 'db_choke_label',
     type: 'text',
-    text: 'Disk Choke: ~1,000 IOPS Limit',
+    text: 'Disk Choke: IOPS Limit Hit',
     speed: 24,
     dialogue: '100K queries hit aithe disk 100% choke — 504 Gateway Timeout, server dead!'
   },
@@ -128,33 +128,33 @@ const SCRIPT_STEPS = [
     id: 'redis_box',
     type: 'shape',
     duration: 500,
-    dialogue: 'Front counter eh mana Redis Cache! In-memory RAM speed nanoseconds.'
+    dialogue: 'Front counter eh mana Redis Cache! Data RAM lo untundhi, disk kaadu.'
   },
   {
     id: 'redis_title',
     type: 'text',
     text: 'Redis In-Memory Cache (RAM)',
     speed: 24,
-    dialogue: 'Front counter eh mana Redis Cache! In-memory RAM speed nanoseconds.'
+    dialogue: 'Front counter eh mana Redis Cache! Data RAM lo untundhi, disk kaadu.'
   },
   {
     id: 'redis_speed',
     type: 'text',
     text: 'Latency: ~1 Millisecond',
     speed: 22,
-    dialogue: 'First user DB nunchi thesthadu, migatha 99,999 queries Redis 1ms lo serve chesthundhi.'
+    dialogue: 'First request DB nunchi vasthundhi, taruvatha requests anni Redis ~1ms lo serve chesthundhi.'
   },
   {
     id: 'redis_stat',
     type: 'text',
-    text: 'Absorbs 99,999 Reads ✓',
+    text: 'Absorbs Repeat Reads ✓',
     speed: 20,
-    dialogue: 'Database load 100,000 nunchi okka query ki drop aypothundhi!'
+    dialogue: 'Database meeda load chala thaggipothundhi — cache miss aithene DB ki veltundhi!'
   },
   {
     id: 'db_saved_label',
     type: 'text',
-    text: '✓ DB Protected: Only 1 Query on Cache Miss!',
+    text: '✓ DB Protected: Hit Only on Cache Miss!',
     speed: 20,
     dialogue: 'Hard disk safe — zero choke, zero crashes.'
   },
@@ -470,9 +470,9 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
                     {isVisible('redis_stat') && (
                       <span className="font-board text-xs text-slate-200 mt-1">
                         {isWriting('redis_stat') ? (
-                          <ActiveWriter text="Absorbs 99,999 Reads ✓" speed={20} onComplete={handleTextComplete} />
+                          <ActiveWriter text="Absorbs Repeat Reads ✓" speed={20} onComplete={handleTextComplete} />
                         ) : (
-                          <span>Absorbs 99,999 Reads ✓</span>
+                          <span>Absorbs Repeat Reads ✓</span>
                         )}
                       </span>
                     )}
@@ -536,9 +536,9 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
                     {isVisible('db_choke_label') && !isVisible('redis_box') && (
                       <span className="font-board text-xs text-rose-400 font-bold mt-1">
                         {isWriting('db_choke_label') ? (
-                          <ActiveWriter text="Disk Choke: ~1,000 IOPS Limit" speed={24} onComplete={handleTextComplete} />
+                          <ActiveWriter text="Disk Choke: IOPS Limit Hit" speed={24} onComplete={handleTextComplete} />
                         ) : (
-                          <span>Disk Choke: ~1,000 IOPS Limit</span>
+                          <span>Disk Choke: IOPS Limit Hit</span>
                         )}
                       </span>
                     )}
@@ -557,9 +557,9 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
                     {isVisible('db_saved_label') && (
                       <span className="font-board text-xs text-emerald-400 font-bold mt-1">
                         {isWriting('db_saved_label') ? (
-                          <ActiveWriter text="✓ DB Protected: Only 1 Query on Cache Miss!" speed={20} onComplete={handleTextComplete} />
+                          <ActiveWriter text="✓ DB Protected: Hit Only on Cache Miss!" speed={20} onComplete={handleTextComplete} />
                         ) : (
-                          <span>✓ DB Protected: Only 1 Query on Cache Miss!</span>
+                          <span>✓ DB Protected: Hit Only on Cache Miss!</span>
                         )}
                       </span>
                     )}
@@ -673,7 +673,7 @@ export default function RoughPaperEngine({ onOpenWaitlist }) {
             {/* Call Room Status */}
             <div className="text-xs text-slate-300 font-medium font-sans flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span>Encrypted 1-on-1 Mentorship Stream</span>
+              <span>1-on-1 Mentorship Session</span>
             </div>
 
             {/* In-Call Action Docks */}

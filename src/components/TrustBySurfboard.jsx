@@ -13,7 +13,7 @@ export default function TrustBySurfboard() {
             <span className="text-blue-600">not a corporate boardroom.</span>
           </h2>
           <p className="text-base text-slate-600 font-normal leading-relaxed">
-            While generic AI startups spend heavily on paid advertisements, S.A.I. is shaped directly by 6 years of qualitative engineering mentorship and a 109,000+ strong student community at The SurfBoard.
+            While generic AI startups spend heavily on paid advertisements, S.A.I. is shaped directly by 6 years of qualitative engineering mentorship and a 105,000+ strong community at The SurfBoard.
           </p>
         </div>
 
@@ -32,7 +32,7 @@ export default function TrustBySurfboard() {
             <div className="pt-6 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-4">
               <div>
                 <h4 className="text-sm font-bold text-slate-950">Founder & Lead Mentor</h4>
-                <p className="text-xs text-slate-500 font-medium">The SurfBoard Community (109K+ Engineers)</p>
+                <p className="text-xs text-slate-500 font-medium">The SurfBoard Community (105K+ Followers)</p>
               </div>
 
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-slate-700 shadow-2xs">
@@ -50,9 +50,9 @@ export default function TrustBySurfboard() {
             <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center">
               <Users className="w-5 h-5 text-blue-600" />
             </div>
-            <h4 className="text-base font-bold text-slate-950">109,000+ Student Trust</h4>
+            <h4 className="text-base font-bold text-slate-950">105,000+ Community Trust</h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Built on six years of organic mentorship across engineering colleges, with thousands of students already placed in top tier tech roles.
+              Built on six years of organic mentorship content and daily conversations with engineering students who want to get placed.
             </p>
           </div>
 

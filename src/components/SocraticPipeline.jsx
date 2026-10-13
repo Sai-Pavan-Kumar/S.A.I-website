@@ -38,7 +38,7 @@ export default function SocraticPipeline() {
       title: 'Sandbox Validation',
       problemFaced: 'Relying on generic AI graders that hallucinate correctness and give false confidence before campus drives.',
       saiDifference: 'Real isolated compiler execution tests your solution across exhaustive hidden suites with strict complexity limits.',
-      stageOutcome: 'Guaranteed mathematical and Big-O certainty'
+      stageOutcome: 'Correctness verified by real test runs, not AI guesswork'
     }
   ];
 

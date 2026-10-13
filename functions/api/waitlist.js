@@ -19,10 +19,15 @@ export async function onRequestPost({ request, env }) {
       submittedAt: new Date().toISOString()
     };
 
-    // If Cloudflare KV or D1 is bound in Cloudflare dashboard
-    if (env && env.WAITLIST_KV) {
-      await env.WAITLIST_KV.put(`waitlist:${email}`, JSON.stringify(entry));
+    // Without the KV binding the signup would vanish silently, so refuse instead of faking success.
+    if (!env?.WAITLIST_KV) {
+      return new Response(JSON.stringify({ error: 'Waitlist storage is not configured' }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
+
+    await env.WAITLIST_KV.put(`waitlist:${email}`, JSON.stringify(entry));
 
     return new Response(
       JSON.stringify({
