@@ -15,7 +15,8 @@ export async function onRequestPost({ request, env }) {
       email,
       tier: data.tier || 'general',
       role: data.role || 'student',
-      target: data.target || '',
+      college: data.college || data.target || '',
+      target: data.college || data.target || '',
       submittedAt: new Date().toISOString()
     };
 

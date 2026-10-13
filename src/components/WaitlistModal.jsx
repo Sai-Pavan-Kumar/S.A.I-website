@@ -3,7 +3,7 @@ import { X, CheckCircle2, ArrowRight, Loader2, ShieldCheck } from 'lucide-react'
 
 export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General Waitlist' }) {
   const [email, setEmail] = useState('');
-  const [details, setDetails] = useState('');
+  const [college, setCollege] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -27,7 +27,8 @@ export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General
         body: JSON.stringify({
           email,
           tier: selectedTier,
-          target: details,
+          college,
+          target: college,
           role: selectedTier.toLowerCase().includes('pilot') || selectedTier.toLowerCase().includes('institutional') ? 'college' : 'student'
         })
       });
@@ -44,7 +45,7 @@ export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General
   const handleReset = () => {
     setSubmitted(false);
     setEmail('');
-    setDetails('');
+    setCollege('');
     onClose();
   };
 
@@ -94,13 +95,13 @@ export default function WaitlistModal({ isOpen, onClose, selectedTier = 'General
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                  College Name / Target Company <span className="text-slate-400 font-normal">(Optional)</span>
+                  College Name <span className="text-slate-400 font-normal">(Optional)</span>
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. JNTU / Amazon SDE-1 / TCS Prime"
-                  value={details}
-                  onChange={(e) => setDetails(e.target.value)}
+                  placeholder="e.g. JNTU, CBIT, Osmania"
+                  value={college}
+                  onChange={(e) => setCollege(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white transition-all"
                 />
               </div>
