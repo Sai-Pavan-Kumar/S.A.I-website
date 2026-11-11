@@ -1,0 +1,298 @@
+.lesson {
+  position: relative;
+  min-height: max(86svh, 720px);
+  padding: var(--section-pad) var(--margin);
+  background: var(--blue);
+  color: var(--paper);
+  overflow: hidden;
+}
+
+.lesson__stage {
+  position: absolute;
+  top: 50%;
+  left: 58%;
+  width: 64vh;
+  height: 64vh;
+  transform: translate(-50%, -50%);
+}
+
+.lesson__disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transition: background var(--dur-swap) var(--ease-out);
+}
+
+.board {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: 92%;
+  margin: 0;
+  padding: 24px 28px 22px;
+  transform: translateX(-50%);
+  background: var(--paper);
+  color: var(--ink);
+  animation: board-swap var(--dur-swap) var(--ease-out);
+}
+
+@keyframes board-swap {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.board__table-name {
+  font-weight: 500;
+  font-size: var(--step-small);
+  color: var(--ink-soft);
+}
+
+.board__table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  font-size: var(--step-body);
+}
+
+.board__table th {
+  padding: 6px 8px 8px 0;
+  border-bottom: 2px solid var(--ink);
+  font-weight: 400;
+  font-size: var(--step-small);
+  text-align: left;
+}
+
+.board__table th code {
+  font-size: 1em;
+}
+
+.board__table td {
+  padding: 7px 8px 7px 0;
+}
+
+.board__table td.is-null {
+  color: var(--coral-ink);
+  font-weight: 500;
+}
+
+.board__cell {
+  position: relative;
+  display: inline-block;
+}
+
+.board__empty {
+  padding: 28px 0 !important;
+  color: var(--ink-soft);
+}
+
+.rough-mark {
+  position: absolute;
+  inset: -9px -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 18px);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.rough-mark path {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: pen-draw 520ms var(--ease-out) forwards;
+}
+
+.rough-mark--strike path {
+  stroke: var(--coral);
+}
+
+@keyframes pen-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.board__result {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 18px;
+}
+
+.board__result code {
+  min-width: 0;
+  font-size: var(--step-small);
+  overflow-wrap: anywhere;
+}
+
+.board__result strong {
+  flex: none;
+}
+
+.board__result strong {
+  font-weight: 900;
+  font-size: var(--step-head);
+  line-height: 1;
+}
+
+.lesson__index {
+  position: absolute;
+  top: 50%;
+  left: var(--margin);
+  width: min(30vw, 440px);
+  transform: translateY(-50%);
+}
+
+.lesson__index h2 {
+  font-weight: 900;
+  font-size: var(--step-head);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.lesson__how {
+  margin-top: 12px;
+}
+
+.lesson__queries {
+  margin-top: 24px;
+}
+
+.lesson__queries button {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--on-blue-soft);
+  font-size: var(--step-lead);
+  line-height: 1.15;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.lesson__queries button:hover {
+  transform: translateX(6px);
+}
+
+.lesson__queries button[aria-pressed='true'] {
+  color: var(--paper);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
+}
+
+.lesson__queries code {
+  font-size: 1em;
+}
+
+.lesson__note {
+  font-size: var(--step-small);
+}
+
+.lesson__fact {
+  position: absolute;
+  top: 50%;
+  left: calc(58% + 32vh + 40px);
+  right: var(--margin);
+  transform: translateY(-50%);
+}
+
+.lesson__answer {
+  font-weight: 900;
+  font-size: var(--step-display);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.lesson__fact blockquote {
+  margin-top: 20px;
+  font-size: var(--step-body);
+  line-height: 1.45;
+  animation: board-swap var(--dur-swap) var(--ease-out);
+}
+
+.lesson__proof {
+  margin-top: 16px;
+  font-size: var(--step-small);
+  color: var(--on-blue-soft);
+}
+
+/* Below desktop the disc leads and the parts stack, so nothing squeezes beside it. */
+@media (max-width: 1099px) {
+  .lesson {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    min-height: 0;
+  }
+  .lesson__stage,
+  .lesson__index,
+  .lesson__fact {
+    position: relative;
+    inset: auto;
+    transform: none;
+    width: auto;
+  }
+  .lesson__stage {
+    order: 1;
+    width: min(86vw, 560px);
+    height: min(86vw, 560px);
+    align-self: center;
+  }
+  .lesson__index {
+    order: 0;
+  }
+  .lesson__fact {
+    order: 2;
+  }
+  .lesson__queries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+  }
+  .lesson__queries button {
+    width: auto;
+    white-space: nowrap;
+  }
+  /* Stacked, the board already ends with the result, so the big repeat would only echo it. */
+  .lesson__answer {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .board {
+    width: 100%;
+    bottom: 0;
+    padding: 16px 14px;
+  }
+  .board__table {
+    font-size: var(--step-small);
+  }
+  .board__table th {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rough-mark path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .board,
+  .lesson__fact blockquote {
+    animation: none;
+  }
+}

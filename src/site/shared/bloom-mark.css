@@ -1,0 +1,23 @@
+/* The mark opens like a flower once on load: the petals start stacked on the student and move out. */
+.bloom-mark__petal {
+  transform-box: view-box;
+  animation: bloom-open 900ms var(--ease-out) both;
+  animation-delay: calc(200ms + var(--petal-index) * 90ms);
+}
+
+@keyframes bloom-open {
+  from {
+    transform: translate(calc(var(--petal-x) * -1), calc(var(--petal-y) * -1)) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bloom-mark__petal {
+    animation: none;
+  }
+}

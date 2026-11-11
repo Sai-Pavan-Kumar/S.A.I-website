@@ -1,0 +1,122 @@
+.faq {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+  padding: var(--section-pad) var(--margin);
+  background: var(--paper);
+  color: var(--ink);
+  /* Lets the answer panel animate to its natural height where the browser supports it. */
+  interpolate-size: allow-keywords;
+}
+
+.faq__title {
+  grid-column: 1 / span 4;
+  align-self: start;
+  position: sticky;
+  top: 32px;
+  max-width: 9ch;
+  font-weight: 900;
+  font-size: var(--step-title);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+
+.faq__list {
+  display: grid;
+  gap: var(--gap);
+  grid-column: 6 / -1;
+}
+
+.faq__item {
+  background: var(--paper-2);
+  transition: background var(--dur-swap) var(--ease-out), color var(--dur-swap) var(--ease-out);
+}
+
+.faq__item[open] {
+  background: var(--open-ground);
+  color: var(--open-ink);
+}
+
+.faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 88px;
+  padding: 20px 28px;
+  font-weight: 500;
+  font-size: var(--step-lead);
+  line-height: 1.2;
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+/* A plus that turns into a cross: the only affordance the tile needs. */
+.faq__item summary::after {
+  content: '+';
+  flex: none;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1;
+  transition: transform var(--dur-swap) var(--ease-out);
+}
+
+.faq__item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq__item p {
+  max-width: 56ch;
+  padding: 0 28px 32px;
+  font-size: var(--step-body);
+  line-height: 1.55;
+}
+
+.faq__item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size var(--dur-enter) var(--ease-out), content-visibility var(--dur-enter) allow-discrete;
+}
+
+.faq__item[open]::details-content {
+  block-size: auto;
+}
+
+@media (hover: hover) {
+  .faq__item:not([open]) summary:hover {
+    background: var(--paper-3);
+  }
+}
+
+@media (max-width: 900px) {
+  .faq {
+    display: block;
+  }
+  .faq__title {
+    position: static;
+    max-width: none;
+    margin-bottom: 40px;
+    font-size: clamp(44px, 12vw, 72px);
+  }
+  .faq__list {
+    display: grid;
+  }
+  .faq__item summary {
+    min-height: 72px;
+    padding: 18px 20px;
+    font-size: 20px;
+  }
+  .faq__item p {
+    padding: 0 20px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__item::details-content {
+    transition: none;
+  }
+}

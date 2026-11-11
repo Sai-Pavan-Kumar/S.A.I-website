@@ -1,0 +1,261 @@
+.letter {
+  display: grid;
+  justify-items: center;
+  gap: var(--head-gap);
+  padding: var(--section-space) var(--page-pad);
+  /* The tilted sheet may reach past the edge; never let that scroll sideways. */
+  overflow-x: clip;
+}
+
+.letter__kicker {
+  font-weight: 900;
+  font-size: clamp(36px, 4.4vw, 72px);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-align: center;
+}
+
+/* The envelope: warm kraft paper, a pocket in front, a flap that swings up and back when opened. */
+.envelope {
+  --kraft: #d9c3a0;
+  --kraft-deep: #c8ad83;
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 16 / 10;
+  perspective: 1200px;
+  filter: drop-shadow(0 30px 40px rgba(70, 45, 20, 0.28));
+  transition:
+    opacity 400ms var(--ease-calm) 400ms,
+    transform 400ms var(--ease-calm) 400ms;
+}
+
+/* Once the letter is out, the envelope has done its job: it sinks away and its space closes up,
+   so the letter takes its place instead of appearing as a second sheet beneath an empty envelope. */
+.letter__envelope-slot {
+  /* Above the letter, so while it fades the letter unfolds from under it, not over it. */
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 1fr;
+  width: min(100%, clamp(560px, 34vw, 860px));
+  margin-top: clamp(48px, 7vh, 88px);
+  transition:
+    grid-template-rows 500ms var(--ease-calm) 300ms,
+    margin-top 500ms var(--ease-calm) 300ms;
+}
+.letter.is-open .letter__envelope-slot {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+}
+.letter.is-open .envelope {
+  opacity: 0;
+  transform: translateY(40px) scale(0.94);
+}
+
+.envelope__back,
+.envelope__front,
+.envelope__flap,
+.envelope__peek {
+  position: absolute;
+  inset: 0;
+}
+
+.envelope__back {
+  border-radius: 10px;
+  background: var(--kraft-deep);
+}
+
+/* The top of the letter, waiting inside: it rises out of the pocket as the envelope opens. */
+.envelope__peek {
+  inset: 8% 7% 10%;
+  border-radius: 4px;
+  background: #faf6ef;
+  transition: transform 400ms var(--ease-calm) 600ms;
+}
+
+.envelope__front {
+  border-radius: 10px;
+  background: var(--kraft);
+  background-image: var(--tex-specks-dark);
+  background-size: 160px 160px;
+  clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+}
+
+.envelope__flap {
+  z-index: 2;
+  background: var(--kraft-deep);
+  background-image: var(--tex-specks-dark);
+  background-size: 160px 160px;
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+  transform-origin: top center;
+  transition:
+    transform 400ms var(--ease-calm) 700ms,
+    opacity 100ms linear 700ms;
+}
+
+.envelope__seal {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: none;
+  color: var(--ink-h);
+  font: inherit;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: opacity 300ms var(--ease-calm) 1000ms;
+}
+.envelope__seal-orb {
+  width: 56px;
+  box-shadow: 0 6px 14px rgba(120, 30, 10, 0.35);
+  transition: transform 400ms var(--ease-calm);
+}
+.envelope__seal:hover .envelope__seal-orb {
+  transform: scale(1.08);
+}
+.envelope__seal-text {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--paper-glass);
+}
+
+.letter.is-open .envelope__flap {
+  /* The flap swings up to edge-on and is gone: folded flat it would climb over the heading on large screens. */
+  opacity: 0;
+  transform: rotateX(90deg);
+}
+/* The letter slides up out of the pocket, the moment the reader is waiting for. */
+.letter.is-open .envelope__peek {
+  transform: translateY(-45%);
+}
+.letter.is-open .envelope__seal {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The full letter unfolds below the envelope: rows grow from 0fr to 1fr, so no height is measured. */
+.letter__reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: min(100%, clamp(720px, 44vw, 1000px));
+  transition: grid-template-rows 500ms var(--ease-calm) 100ms;
+}
+.letter.is-open .letter__reveal {
+  grid-template-rows: 1fr;
+}
+.letter__reveal-inner {
+  overflow: hidden;
+  padding: 0 12px 60px;
+}
+
+/* A real sheet: a shade lighter than the page, with a soft lift, set down a little crooked. */
+.letter__sheet {
+  position: relative;
+  padding: clamp(36px, 6vw, 80px) clamp(24px, 6vw, 80px) clamp(40px, 6vw, 72px);
+  border-radius: 6px;
+  background-color: #faf6ef;
+  box-shadow:
+    0 1px 0 rgba(29, 25, 21, 0.06),
+    var(--lift-shadow);
+  opacity: 0;
+  transform: translateY(-40px) rotate(-1.5deg);
+  transition:
+    opacity 250ms var(--ease-calm),
+    transform 400ms var(--ease-calm);
+}
+.letter.is-open .letter__sheet {
+  opacity: 1;
+  transform: rotate(-0.6deg);
+}
+
+.letter__sheet p {
+  color: var(--ink-h);
+  font-size: clamp(18px, 1.25vw, 26px);
+  line-height: 1.75;
+}
+.letter__sheet p + p {
+  margin-top: 20px;
+}
+
+.letter__sheet .letter__greeting,
+.letter__sheet .letter__sign {
+  color: var(--pen-blue);
+  font-size: clamp(32px, 2.6vw, 56px);
+  line-height: 1.1;
+}
+.letter__sheet .letter__greeting {
+  margin-bottom: 28px;
+}
+.letter__sheet .letter__sign {
+  margin-top: 40px;
+  text-align: right;
+}
+.letter__sign::before {
+  content: '– ';
+}
+
+/* The timings above are for closing: quick, in reverse. Opening is slower and in story order:
+   flap, letter rising, envelope leaving, letter unfolding. */
+.letter.is-open .envelope__flap {
+  transition:
+    transform 500ms var(--ease-calm),
+    opacity 200ms linear 380ms;
+}
+.letter.is-open .envelope__peek {
+  transition: transform 700ms var(--ease-calm) 350ms;
+}
+.letter.is-open .envelope__seal {
+  transition: opacity 400ms var(--ease-calm);
+}
+.letter.is-open .envelope {
+  transition:
+    opacity 350ms var(--ease-calm) 1000ms,
+    transform 500ms var(--ease-calm) 1000ms;
+}
+.letter.is-open .letter__envelope-slot {
+  transition:
+    grid-template-rows 600ms var(--ease-calm) 950ms,
+    margin-top 600ms var(--ease-calm) 950ms;
+}
+.letter.is-open .letter__reveal {
+  transition: grid-template-rows 900ms var(--ease-calm) 950ms;
+}
+.letter.is-open .letter__sheet {
+  transition:
+    opacity 450ms var(--ease-calm) 950ms,
+    transform 900ms var(--ease-calm) 950ms;
+}
+
+.letter__close {
+  display: block;
+  min-height: 44px;
+  margin: 48px auto 0;
+  padding: 10px 22px;
+  border: 1px solid rgba(29, 25, 21, 0.18);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-h);
+  font: inherit;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 200ms var(--ease-calm);
+}
+.letter__close:hover {
+  background: rgba(29, 25, 21, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter * {
+    transition: none !important;
+  }
+}

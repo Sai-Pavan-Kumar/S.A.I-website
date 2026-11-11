@@ -1,0 +1,141 @@
+.hero {
+  --mark-size: min(84svh, 50vw);
+  position: relative;
+  height: 100svh;
+  min-height: 680px;
+  overflow: hidden;
+}
+
+.hero__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Same place and size as the live mark (orbField layoutFor), so the swap is invisible. */
+.hero__fallback {
+  position: absolute;
+  top: 52%;
+  left: 70%;
+  width: var(--mark-size);
+  height: var(--mark-size);
+  margin: calc(var(--mark-size) / -2) 0 0 calc(var(--mark-size) / -2);
+}
+
+.hero__stage.is-live .hero__fallback {
+  display: none;
+}
+
+/* The touch area for pulling the circles: the mark's own square, nothing more, so the rest of
+   the hero scrolls and selects as normal. */
+.hero__grab {
+  position: absolute;
+  top: 52%;
+  left: 70%;
+  /* Above the copy: on phones the copy box reaches up over the mark. */
+  z-index: 3;
+  display: none;
+  width: var(--mark-size);
+  height: var(--mark-size);
+  margin: calc(var(--mark-size) / -2) 0 0 calc(var(--mark-size) / -2);
+  cursor: grab;
+  touch-action: pan-y;
+}
+.hero__stage.is-live + .hero__grab {
+  display: block;
+}
+.hero__grab.is-dragging {
+  cursor: grabbing;
+}
+
+.hero__copy {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--page-pad);
+  z-index: 2;
+  display: grid;
+  align-content: center;
+  gap: 40px;
+  width: min(46vw, 660px);
+  padding: 96px 0 48px;
+}
+
+.hero__title {
+  font-weight: 900;
+  font-size: clamp(52px, 6.2vw, 120px);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+}
+
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.03em;
+}
+
+.hero__line > span {
+  display: inline-block;
+}
+
+/* SAI's handwritten answer: a touch larger than the type, nudged right like a note added by hand. */
+.hero__note {
+  display: block;
+  /* The pen plan keeps room above the letters for tall strokes; pull it up so the two lines read as one thought. */
+  margin: -0.14em 0 0 0.3em;
+  letter-spacing: 0;
+}
+.hero__note-ink {
+  display: block;
+  height: 1.3em;
+}
+.hero__note-ink svg {
+  display: block;
+  width: auto;
+  height: 100%;
+}
+.hero__note-ink .hand {
+  color: var(--pen-blue);
+}
+
+.hero__after {
+  display: grid;
+  gap: 32px;
+  justify-items: start;
+}
+
+.hero__lead {
+  max-width: 30ch;
+  color: var(--ink-h-soft);
+  font-size: clamp(19px, 1.5vw, 24px);
+  line-height: 1.45;
+}
+
+@media (max-width: 899px) {
+  .hero {
+    --mark-size: min(74vw, 34svh);
+    height: auto;
+    min-height: 100svh;
+  }
+  .hero__fallback,
+  .hero__grab {
+    top: 72px;
+    left: 50%;
+    margin-top: 0;
+  }
+  .hero__copy {
+    position: relative;
+    left: auto;
+    width: auto;
+    gap: 28px;
+    padding: calc(72px + var(--mark-size) + 36px) var(--page-pad) 72px;
+  }
+  .hero__title {
+    font-size: 13vw;
+  }
+}

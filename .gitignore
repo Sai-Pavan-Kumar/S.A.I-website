@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local secrets and design-tool scratch files
+.env
+.taste-skill/
+.wrangler/

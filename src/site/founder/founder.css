@@ -1,0 +1,88 @@
+.founder {
+  padding: 120px var(--margin);
+  background: var(--amber);
+  color: var(--ink);
+}
+
+.founder h2 {
+  font-weight: 900;
+  font-size: var(--step-head);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.founder__story {
+  margin-top: 40px;
+  columns: 2;
+  column-gap: 32px;
+  font-size: var(--step-lead);
+  line-height: 1.22;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.founder__story strong {
+  font-weight: 500;
+}
+
+.founder__mark {
+  padding: 0 0.1em;
+  color: var(--ink);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.founder__mark--blue {
+  background: var(--blue);
+  color: var(--paper);
+}
+.founder__mark--paper {
+  background: var(--paper);
+}
+.founder__mark--teal {
+  background: var(--teal);
+}
+.founder__mark--coral {
+  background: var(--coral);
+}
+.founder__mark--ink {
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.founder__mark--ink:hover {
+  background: var(--blue);
+}
+
+/* The digits file keeps only Sai's ink (transparent board), so it sits on the amber like a signature. */
+.founder__signature {
+  margin-top: 56px;
+}
+.founder__signature img {
+  width: min(100%, 640px);
+  height: auto;
+}
+
+/* Justified text needs a wide measure; below desktop it would open rivers, so it goes ragged-right. */
+@media (max-width: 1000px) {
+  .founder__story {
+    columns: 1;
+    max-width: 44ch;
+    text-align: left;
+  }
+}
+
+@media (max-width: 720px) {
+  .founder {
+    padding: 88px 18px;
+  }
+  .founder__story {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  .founder__mark--ink {
+    display: block;
+    margin-top: 24px;
+    padding: 12px 0.4em;
+  }
+}

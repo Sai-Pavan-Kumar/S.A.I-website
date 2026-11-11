@@ -1,0 +1,49 @@
+.footer {
+  padding: clamp(80px, 12vh, 140px) var(--page-pad) 32px;
+  overflow: hidden;
+}
+
+/* The wordmark in the mark's own four colours, with the same grain, so the page ends on the brand. */
+.footer__word {
+  width: fit-content;
+  padding-right: 0.04em;
+  font-weight: 900;
+  font-size: clamp(120px, 55vw, 1000px);
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+  background:
+    var(--tex-specks-dark),
+    linear-gradient(100deg, #0636d9, #6fb2ff 24%, #5eddbe 42%, #08735f 52%, #ffd24d 66%, #ee6a05 78%, #ff9478 90%, #d92b14);
+  background-size: 160px 160px, 100% 100%;
+  background-blend-mode: multiply, normal;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.footer__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule-h);
+  color: var(--ink-h-soft);
+  font-size: 15px;
+}
+
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  color: var(--ink-h);
+  text-decoration: none;
+}
+
+.footer__mark {
+  width: 28px;
+  height: 28px;
+}

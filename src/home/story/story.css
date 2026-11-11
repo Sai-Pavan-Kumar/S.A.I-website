@@ -1,0 +1,83 @@
+.story {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(48px, 6vw, 120px);
+  padding: var(--section-space) var(--page-pad);
+  /* Circles gathering in and the tilted sheet may reach past the edge; never let that scroll sideways. */
+  overflow-x: clip;
+}
+
+.story__figure {
+  position: relative;
+  width: min(72svh, 44vw);
+  justify-self: center;
+}
+
+.story__mark,
+.story__annotation {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.story__annotation {
+  position: absolute;
+  inset: 0;
+}
+
+/* White reads on blue, green and coral; on yellow only dark ink passes contrast. */
+.story__label {
+  fill: #ffffff;
+  filter: url(#story-label-shade);
+  font-size: 4.6px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.story__you-word {
+  fill: var(--pen-blue);
+  font-size: 11px;
+}
+
+.story__you-arrow {
+  fill: none;
+  stroke: var(--ink-h);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 0;
+}
+
+.story__text h2 {
+  font-weight: 900;
+  font-size: clamp(44px, 6.4vw, 104px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.story__text p {
+  max-width: 46ch;
+  margin-top: 24px;
+  color: var(--ink-h-soft);
+  font-size: clamp(17px, 1.35vw, 20px);
+  line-height: 1.6;
+}
+
+.story__text .story__lead {
+  margin-top: 36px;
+  color: var(--ink-h);
+  font-size: clamp(20px, 1.7vw, 26px);
+  line-height: 1.45;
+}
+
+@media (max-width: 899px) {
+  .story {
+    grid-template-columns: 1fr;
+  }
+  .story__figure {
+    width: min(84vw, 460px);
+  }
+}

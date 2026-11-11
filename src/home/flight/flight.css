@@ -1,0 +1,52 @@
+/* Above the page, below the nav and below the method section (method.css), so a landing
+   circle slides under its step number and card instead of over them. */
+.flight {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* The flower's hollow centre is cut with a mask, as the WebGL mark cuts it. */
+.flight__flower {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  mask-image: radial-gradient(circle at var(--cx) var(--cy), transparent var(--hole), #000 calc(var(--hole) + 0.5px));
+}
+
+.flight__petal,
+.flight__flyer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  will-change: transform;
+}
+
+.flight__flyer {
+  box-shadow: 0 60px 160px -70px var(--orb-to);
+}
+
+/* Docked, the flower sits on a frosted disc like the nav's pill: over running text on a phone
+   it reads as a badge, and the words beneath stay readable. */
+.flight__disc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid var(--rule-h);
+  border-radius: 50%;
+  background: var(--paper-glass);
+  backdrop-filter: blur(16px) saturate(130%);
+  box-shadow: 0 16px 40px -18px rgba(70, 45, 20, 0.45);
+  opacity: 0;
+}
+
+/* A live blur over moving circles redraws every frame, the main cause of phone stutter.
+   On phones the glass turns solid paper: the same look at rest, almost no cost. */
+@media (max-width: 899px) {
+  .flight__disc {
+    background: var(--ground);
+    backdrop-filter: none;
+  }
+}

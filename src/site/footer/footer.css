@@ -1,0 +1,112 @@
+.site-footer {
+  overflow: hidden;
+  padding: 96px var(--margin) 0;
+  background: var(--night);
+  color: var(--paper);
+}
+
+.site-footer__top {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+  align-items: start;
+}
+
+.site-footer__brand {
+  grid-column: 1 / span 4;
+}
+
+.site-footer__brand p {
+  max-width: 30ch;
+  margin-top: 20px;
+  color: var(--on-night-soft);
+}
+
+.site-footer__nav {
+  grid-column: 6 / span 4;
+}
+
+.site-footer__nav a,
+.site-footer__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 500;
+  font-size: var(--step-lead);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.site-footer__nav a:hover,
+.site-footer__legal a:hover {
+  color: var(--amber);
+}
+
+.site-footer__legal {
+  grid-column: 10 / span 3;
+  justify-self: end;
+  text-align: right;
+}
+
+.site-footer__legal p {
+  margin-top: 8px;
+  color: var(--on-night-soft);
+  font-size: var(--step-small);
+}
+
+.site-footer__name {
+  display: flex;
+  justify-content: space-between;
+  /* Top margin in em clears the glyph box, which reaches well above the tight 0.8 line box. */
+  margin: 0.3em 0 -0.2em;
+  font-weight: 900;
+  font-size: 44vw;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.site-footer__name span {
+  display: block;
+  transition: transform 900ms var(--ease-out);
+  transition-delay: calc(var(--letter-index) * 90ms);
+}
+
+/* The letters rise into the crop one after another when the footer arrives. */
+.js .site-footer__name[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+.js .site-footer__name:not(.is-revealed) span {
+  transform: translateY(40%);
+}
+
+@media (max-width: 900px) {
+  .site-footer {
+    padding-top: 72px;
+  }
+  .site-footer__top {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .site-footer__brand,
+  .site-footer__nav,
+  .site-footer__legal {
+    grid-column: 1;
+    justify-self: start;
+    text-align: left;
+  }
+  .site-footer__name {
+    margin-top: 0.36em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer__name span {
+    transition: none;
+  }
+  .js .site-footer__name:not(.is-revealed) span {
+    transform: none;
+  }
+}

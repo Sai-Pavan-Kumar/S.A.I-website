@@ -1,0 +1,119 @@
+.mindsets {
+  position: relative;
+  padding: var(--section-pad) var(--margin);
+  background: var(--teal);
+  color: var(--ink);
+}
+
+.mindsets__intro {
+  position: absolute;
+  top: var(--section-pad);
+  left: var(--margin);
+  width: calc((100% - 2 * var(--margin)) * 5 / 12);
+  padding-right: 24px;
+}
+
+.mindsets__intro h2 {
+  max-width: 13ch;
+  font-weight: 900;
+  font-size: var(--step-head);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.mindsets__intro p {
+  max-width: 44ch;
+  margin-top: 20px;
+}
+
+.mindsets__stages {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 10px;
+  align-items: end;
+  min-height: 72vh;
+}
+
+.mindsets__stage:nth-child(1) {
+  grid-column: span 2;
+  --tile-height: 26vh;
+}
+.mindsets__stage:nth-child(2) {
+  grid-column: span 3;
+  --tile-height: 36vh;
+}
+.mindsets__stage:nth-child(3) {
+  grid-column: span 3;
+  --tile-height: 48vh;
+}
+.mindsets__stage:nth-child(4) {
+  grid-column: span 4;
+  --tile-height: 60vh;
+}
+
+.mindsets__tile {
+  display: grid;
+  place-items: center;
+  height: var(--tile-height);
+  background: var(--paper);
+  container-type: size;
+}
+
+/* Sized off the tile's shorter side so the petal stays a circle in every tile shape. */
+.mindsets__petal {
+  width: min(58cqw, 78cqh);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transition: transform 420ms var(--ease-out);
+}
+
+.mindsets__stage:hover .mindsets__petal {
+  transform: scale(1.08);
+}
+
+.mindsets__stage h3 {
+  margin-top: 16px;
+  font-weight: 500;
+  font-size: var(--step-lead);
+}
+
+.mindsets__stage p {
+  margin-top: 6px;
+  max-width: 34ch;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .mindsets__intro {
+    position: static;
+    width: auto;
+    padding: 0;
+    margin-bottom: 40px;
+  }
+  .mindsets__intro h2 {
+    font-size: 30px;
+  }
+  .mindsets__stages {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 10px;
+    min-height: 0;
+  }
+  .mindsets__stage:nth-child(n) {
+    grid-column: auto;
+  }
+  .mindsets__stage:nth-child(1) {
+    --tile-height: 30vw;
+  }
+  .mindsets__stage:nth-child(2) {
+    --tile-height: 38vw;
+  }
+  .mindsets__stage:nth-child(3) {
+    --tile-height: 46vw;
+  }
+  .mindsets__stage:nth-child(4) {
+    --tile-height: 54vw;
+  }
+  .mindsets__stage h3 {
+    font-size: var(--step-body);
+  }
+}

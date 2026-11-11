@@ -1,0 +1,128 @@
+.join {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+  padding: var(--section-pad) var(--margin);
+  background: var(--coral);
+}
+
+.join__side,
+.join__tile {
+  min-height: 76vh;
+}
+
+.join__side--picture {
+  grid-column: 1 / span 4;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.join__side--picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keeps the LLM / tokens / agents column whole; only the edge of the AI circle is cropped. */
+  object-position: 52% 50%;
+  mix-blend-mode: multiply;
+}
+
+.join__side--colour {
+  grid-column: 11 / span 2;
+  background: var(--blue);
+}
+
+.join__tile {
+  grid-column: 5 / span 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px clamp(24px, 4vw, 64px);
+  background: var(--night);
+  color: var(--paper);
+  text-align: center;
+}
+
+.join__tile h2 {
+  margin-top: 32px;
+  max-width: 12ch;
+  font-weight: 900;
+  font-size: var(--step-title);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+
+.join__lead {
+  max-width: 40ch;
+  margin-top: 24px;
+  color: var(--on-night-soft);
+}
+
+.join__form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--gap);
+  width: min(100%, 520px);
+  margin-top: 40px;
+}
+
+.join__form input {
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: var(--step-body);
+}
+
+.join__form input::placeholder {
+  color: var(--ink-muted);
+}
+
+.join__form input[aria-invalid='true'] {
+  outline: 3px solid var(--coral);
+  outline-offset: 0;
+}
+
+.join__message {
+  grid-column: 1 / -1;
+  min-height: 1.5em;
+  color: var(--on-night-soft);
+  font-size: var(--step-small);
+}
+
+.join__done {
+  max-width: 32ch;
+  margin-top: 40px;
+  padding: 20px 24px;
+  background: var(--teal);
+  color: var(--ink);
+  font-weight: 500;
+  font-size: var(--step-lead);
+  line-height: 1.25;
+}
+
+@media (max-width: 900px) {
+  .join {
+    display: flex;
+    flex-direction: column;
+    padding: 72px var(--margin);
+  }
+  .join__tile {
+    order: -1;
+    min-height: 0;
+    padding: 56px 20px;
+  }
+  .join__side--picture {
+    min-height: 0;
+    aspect-ratio: 3 / 2;
+  }
+  .join__side--colour {
+    min-height: 40px;
+  }
+  .join__form {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,219 @@
+.method {
+  position: relative;
+  /* Above the flight layer (flight.css): the section is see-through, so a circle flying in shows,
+     but passes under the step number and card. The moving track makes its own layer, so the
+     z-index has to sit here, on the section. */
+  z-index: 2;
+}
+
+.method__pin {
+  overflow: hidden;
+}
+
+.method__track {
+  display: flex;
+  align-items: center;
+  gap: clamp(64px, 8vw, 160px);
+  width: max-content;
+  height: 100svh;
+  padding: 96px var(--page-pad) 48px;
+}
+
+.method__intro {
+  flex: none;
+  width: min(38vw, 620px);
+}
+
+.method__panel {
+  flex: none;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(40px, 5vw, 96px);
+  width: min(84vw, 1320px);
+}
+
+.method__art {
+  position: relative;
+  width: min(66svh, 36vw);
+}
+
+/* The circle is the panel: big, textured, with a little of its own colour spilling onto the ground. */
+.method__orb {
+  width: 100%;
+  box-shadow: 0 60px 160px -70px var(--orb-to);
+}
+
+.method__number {
+  position: absolute;
+  top: -0.32em;
+  left: -0.08em;
+  color: var(--ink-h);
+  font-size: clamp(96px, 11svh, 160px);
+  line-height: 1;
+}
+
+.method__visual {
+  position: absolute;
+  right: -12%;
+  bottom: 8%;
+  width: min(78%, 380px);
+}
+
+.method__name {
+  display: inline-flex;
+  margin-bottom: 20px;
+  color: var(--ink-h-soft);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.method__text h3 {
+  max-width: 12ch;
+  font-weight: 900;
+  font-size: clamp(40px, 4.6vw, 80px);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.method__body {
+  max-width: 40ch;
+  margin-top: 28px;
+  color: var(--ink-h-soft);
+  font-size: clamp(17px, 1.35vw, 20px);
+  line-height: 1.55;
+}
+
+.method-card {
+  padding: 22px 24px;
+  border: 1px solid var(--rule-h);
+  border-radius: 20px;
+  background: var(--paper-glass);
+  backdrop-filter: blur(16px) saturate(130%);
+  box-shadow: 0 30px 80px -30px rgba(70, 45, 20, 0.4);
+  font-size: 17px;
+}
+
+.method-card--board {
+  display: grid;
+  gap: 4px;
+  background-color: var(--board-paper);
+  background-image: var(--tex-grain);
+  background-size: 200px 200px;
+  color: var(--board-ink);
+  font-size: clamp(24px, 2vw, 30px);
+  line-height: 1.15;
+}
+.method-card__accent {
+  color: #ffd24d;
+}
+
+.method-card--checks {
+  display: grid;
+  gap: 14px;
+  list-style: none;
+}
+.method-card--checks li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.method-check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom left, #5eddbe, #08735f);
+}
+.method-check svg {
+  width: 18px;
+  fill: none;
+  stroke: #04140f;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.method-card--scale {
+  display: grid;
+  gap: 16px;
+}
+.method-scale__row {
+  display: grid;
+  gap: 2px;
+}
+.method-scale__label {
+  color: var(--ink-h-faint);
+  font-size: 14px;
+}
+.method-scale__value {
+  font-weight: 900;
+  font-size: clamp(32px, 2.6vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.method-scale__note {
+  font-weight: 500;
+  font-size: clamp(20px, 1.6vw, 26px);
+  line-height: 1.2;
+}
+
+.method-rhythm {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.method-rhythm__day {
+  width: 100%;
+}
+.method-rhythm__note {
+  margin-top: 16px;
+  color: var(--ink-h-soft);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+@media (max-width: 899px) {
+  .method__track {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 120px;
+    width: auto;
+    height: auto;
+    padding: var(--section-space) var(--page-pad) 0;
+  }
+  .method__intro,
+  .method__panel {
+    width: auto;
+  }
+  .method__panel {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .method__art {
+    width: min(78vw, 420px);
+  }
+  .method__visual {
+    right: -14%;
+    width: 76%;
+  }
+  .method-card {
+    padding: 16px 18px;
+    font-size: 15px;
+  }
+}
+
+/* A live blur over moving circles redraws every frame, the main cause of phone stutter.
+   On phones the glass turns solid paper: the same look at rest, almost no cost. */
+@media (max-width: 899px) {
+  .method-card {
+    background: var(--ground);
+    backdrop-filter: none;
+  }
+}

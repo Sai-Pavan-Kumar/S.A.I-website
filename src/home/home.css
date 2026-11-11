@@ -1,0 +1,189 @@
+/* SAI's board handwriting, the same face the board engine writes with (palaka fonts.css). Bold only. */
+@font-face {
+  font-family: 'Gaegu';
+  src: url('/fonts/Gaegu-Bold-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  /* Warm notebook paper: the page a senior sketches on. Boards stay black, like a board on the wall. */
+  --ground: #f1eadf;
+  --ink-h: #1d1915;
+  --ink-h-soft: #564e45;
+  --ink-h-faint: #847a6f;
+  --rule-h: rgba(29, 25, 21, 0.14);
+  --ink-wash: rgba(29, 25, 21, 0.06);
+  --paper-glass: rgba(246, 241, 232, 0.74);
+  --on-ink: #f6f1e8;
+  --pen-blue: #0636d9;
+  --lift-shadow: 0 40px 100px -40px rgba(70, 45, 20, 0.45);
+  --board-paper: #111118;
+  --board-ink: #f5f5fa;
+  --hand: 'Gaegu', 'Segoe Print', 'Comic Sans MS', cursive;
+  --ease-calm: cubic-bezier(0.22, 1, 0.36, 1);
+  --page-pad: clamp(20px, 4vw, 64px);
+  /* One rhythm for the whole page: the same breath between sections, and under every heading. */
+  --section-space: clamp(96px, 14vh, 160px);
+  --head-gap: clamp(40px, 6vh, 72px);
+
+  /* Paper mottling: large, soft blotches of warm light, like stone or heavy board. */
+  --tex-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1600'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.005' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .33 0 0 0 0 .2 .2 0 0 0 -.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  /* Fine light specks for the black boards, thresholded the same way as the logo's grain. */
+  --tex-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .9 0 0 0 1.6 -.72'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --tex-specks-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 -.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+}
+
+html:has(.home),
+html:has(.home) body {
+  background: var(--ground);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.home {
+  position: relative;
+  isolation: isolate;
+  color: var(--ink-h);
+  font-family: 'Overused Grotesk', -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* The textured ground: fixed behind every section, so the page reads as one continuous surface. */
+.home__texture {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--ground);
+  background-image:
+    radial-gradient(1100px 760px at 88% -8%, rgba(255, 190, 120, 0.22), transparent 62%),
+    radial-gradient(900px 700px at -12% 108%, rgba(120, 150, 230, 0.1), transparent 60%),
+    var(--tex-mottle);
+  background-size: auto, auto, 1600px 1600px;
+}
+
+.home__texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--tex-specks-dark);
+  background-size: 160px 160px;
+  opacity: 0.16;
+}
+
+.home::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(90, 60, 30, 0.14));
+}
+
+.hand {
+  font-family: var(--hand);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  word-spacing: -0.1em;
+}
+
+/* A brand circle at any size: the logo's gradient direction, its grain, never flat. */
+.orb {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--tex-specks-dark), linear-gradient(to bottom left, var(--orb-from), var(--orb-to));
+  background-size: 160px 160px, 100% 100%;
+  background-blend-mode: multiply, normal;
+}
+.orb--learn {
+  --orb-from: #6fb2ff;
+  --orb-to: #0636d9;
+}
+.orb--prove {
+  --orb-from: #5eddbe;
+  --orb-to: #08735f;
+}
+.orb--build {
+  --orb-from: #ffd24d;
+  --orb-to: #ee6a05;
+}
+.orb--placed {
+  --orb-from: #ff9478;
+  --orb-to: #d92b14;
+}
+
+.home .button {
+  position: relative;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 30px;
+  border-radius: 999px;
+  background: var(--ink-h);
+  color: var(--on-ink);
+  font-weight: 500;
+}
+.home .button:hover {
+  background: #000000;
+}
+.home .button__orb {
+  width: 14px;
+}
+/* Equal padding still looks off: a small dot near the pill's round end reads as pushed right.
+   Sitting the dot on the centre of that curve (radius 28 - dot radius 7) makes it look balanced. */
+.home .button:has(.button__orb) {
+  padding-left: 21px;
+}
+
+.link-quiet {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  color: var(--ink-h);
+  font-weight: 500;
+  text-decoration: none;
+}
+.link-quiet span {
+  transition: transform 400ms var(--ease-calm);
+}
+.link-quiet:hover span {
+  transform: translateX(6px);
+}
+
+.section-head {
+  display: grid;
+  gap: 20px;
+  max-width: 900px;
+}
+.section-head h2 {
+  font-weight: 900;
+  font-size: clamp(44px, 6.4vw, 104px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+.section-head p {
+  max-width: 54ch;
+  color: var(--ink-h-soft);
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.5;
+}
+.kicker-orb {
+  width: 22px;
+}
+
+.home :focus-visible {
+  outline: 2px solid var(--pen-blue);
+  outline-offset: 4px;
+}
+.home ::selection {
+  background: #0636d9;
+  color: #ffffff;
+}
